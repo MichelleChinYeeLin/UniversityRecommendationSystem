@@ -4,33 +4,27 @@
 
 using namespace std;
 
-class UniList {
-private:
-	struct UniNode {
-		int rank;
-		string name, locationCode, location;
-		double arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled;
-		int arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank;
+template<class T>
+struct Node {
+	T data;
+	Node<T>* prev;
+	Node<T>* next;
+};
 
-		UniNode* prev = NULL;
-		UniNode* next = NULL;
-	};
-
-	UniNode* head;
-	UniNode* tail;
-	int size;
+template<class T>
+class LinkedList {
+	Node<T>* head = NULL;
+	Node<T>* tail = NULL;
+	int size = 0;
 
 public:
-	UniList();
-	UniNode* createNewNode(int, string, string, string, double, int, double, int, double, int, double, int, double,
-						   int, double, int, double, int, double, int, double);
-	void insertToFront(int, string, string, string, double, int, double, int, double, int, double, int, double,
-					   int, double, int, double, int, double, int, double);
-	void insertToEnd(int, string, string, string, double, int, double, int, double, int, double, int, double,
-					 int, double, int, double, int, double, int, double);
+	LinkedList();
+	Node<T>* createNewNode(T);
+	void insertToFront(T);
+	void insertToEnd(T);
 	void deleteFromFront();
 	void deleteFromEnd();
-	void displayList();
+	void displayList(int, int);
 };
 
 #endif
