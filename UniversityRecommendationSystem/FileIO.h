@@ -2,11 +2,14 @@
 #define FILEIO_H
 
 #include "LinkedList.h"
+#include "University.h"
 #include <iostream>
 
-static class FileIO {
+class FileIO {
 public:
-	UniList readUniversityFile();
+	LinkedList<University> readUniversityFile();
+	string checkNameValue(ifstream&);
+	string checkNumberValue(ifstream&, string);
 };
 
 #endif
