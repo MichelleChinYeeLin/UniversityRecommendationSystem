@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="Stack.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="UniversityRecommendationSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HashTable.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Stack.h" />
