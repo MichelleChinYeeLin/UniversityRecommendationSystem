@@ -33,7 +33,7 @@ public:
 	void insertToEnd(T);
 	void deleteFromFront();
 	void deleteFromEnd();
-	void display(int, int);
+	bool display(int, int);
 };
 
 template<class T>
@@ -104,6 +104,6 @@ void LinkedList<T>::deleteFromEnd() {
 }
 
 template<>
-void LinkedList<University>::display(int min, int max);
+bool LinkedList<University>::display(int min, int max);
 
 #endif

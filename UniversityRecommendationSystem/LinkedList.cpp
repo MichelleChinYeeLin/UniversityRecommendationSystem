@@ -5,13 +5,22 @@
 using namespace std;
 
 template<>
-void LinkedList<University>::display(int min, int max) {
+bool LinkedList<University>::display(int min, int max) {
+
+	if (min > size) {
+		return true;
+	}
 
 	Node<University>* current = head;
 	int count = 1;
 
-	while (current != NULL) {
-
+	//Header
+	cout << string(135, '=') << endl;
+	cout << left << setw(5) << "Rank" << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
+	cout << string(135, '=') << endl;
+ 
+	while (current != NULL)
+{
 		if (count < min) {
 			count++;
 		}
@@ -28,4 +37,6 @@ void LinkedList<University>::display(int min, int max) {
 
 		current = current->next;
 	}
+
+	return false;
 }

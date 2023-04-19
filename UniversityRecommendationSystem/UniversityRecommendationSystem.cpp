@@ -76,25 +76,28 @@ void displayUniversityList() {
 	int min = 1;
 	int max = 100;
 	string input = "";
+	bool endOfList = false;
 
 	do {
+		endOfList = uniList.display(min, max);
 
-		//Header
-		cout << string(135, '=') << endl;
-		cout << left << setw(5) << "Rank" << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
-		cout << string(135, '=') << endl;
-
-		uniList.display(min, max);
-		cout << "Continue? Enter 'Y' to continue displaying list: ";
-		cin >> input;
-
-		if (input == "Y") {
-			min += 100;
-			max += 100;
-			system("cls");
+		if (endOfList) {
+			cout << "End of University List!" << endl;
+			system("pause");
 		}
 
-	} while (input == "Y");
+		else {
+			cout << "Continue? Enter 'Y' to continue displaying list: ";
+			cin >> input;
+
+			if (input == "Y") {
+				min += 100;
+				max += 100;
+				system("cls");
+			}
+		}
+
+	} while (input == "Y" && !endOfList);
 } 
 
 bool customerLogin() {
