@@ -12,8 +12,12 @@ private:
 	double arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled;
 	int arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank;
 public:
+	University();
 	University(int, string, string, string, double, int, double, int, double, int, double, int, double,
-			   int, double, int, double, int, double, int, double);
+		int, double, int, double, int, double, int, double);
+	//void createUniversity(int, string, string, string, double, int, double, int, double, int, double, int, double,
+		//int, double, int, double, int, double, int, double);
+	void displayUniversitySummarized();
 };
 
 #endif

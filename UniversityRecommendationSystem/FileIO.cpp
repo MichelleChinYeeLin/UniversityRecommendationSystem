@@ -1,6 +1,6 @@
-#include "LinkedList.h"
 #include "FileIO.h"
-#include "University.h"
+//#include "LinkedList.h"
+//#include "University.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,7 +8,7 @@
 using namespace std;
 
 LinkedList<University> FileIO::readUniversityFile() {
-	LinkedList<University> uniList = LinkedList<University>();
+	LinkedList<University> uniList;
 	ifstream file("2023 QS World University Rankings.csv");
 	
 	string rank;
@@ -16,6 +16,7 @@ LinkedList<University> FileIO::readUniversityFile() {
 	double arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled;
 	int arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank;
 	int count = 0;
+
 	while (file.good()) {
 		getline(file, rank, ',');
 
@@ -114,7 +115,7 @@ LinkedList<University> FileIO::readUniversityFile() {
 			system("cls");
 		}
 
-		University newUniversity = University(stoi(rank), name, locationCode, location, arScore, arRank, 
+		University newUniversity(stoi(rank), name, locationCode, location, arScore, arRank,
 			erScore, erRank, fsrScore, fsrRank, cpfScore, cpfRank,
 			ifrScore, ifrRank, isrScore, isrRank, irnScore, irnRank, gerScore, gerRank, scoreScaled);
 
