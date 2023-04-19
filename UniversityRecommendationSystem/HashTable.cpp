@@ -18,16 +18,16 @@ int main(/*int argc, char** argv*/) {
 	hash.addUserAcc("Joe", "Green Tea");
 	hash.addUserAcc("Max", "Caramel mocha");
 
-	//hash.printTable();
+	hash.printTable();
 	//hash.printItemsInIndex(2);
 
-	while (name != "exit") {
+	/*while (name != "exit") {
 		cout << "Search for ";
 		cin >> name;
 		if (name != "exit") {
 			hash.updatePwd(name);
 		}
-	}
+	}*/
 
 	return 0;
 }
