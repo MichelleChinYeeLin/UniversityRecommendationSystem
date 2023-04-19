@@ -1,7 +1,8 @@
-#include "LinkedList.h"
+//#include "LinkedList.h"
 #include "FileIO.h"
-#include "University.h"
+//#include "University.h"
 #include <iostream>
+#include <iomanip>
 #include <limits>
 using namespace std;
 
@@ -61,7 +62,7 @@ int main() {
 			
 			displayUniversityList();
 
-			//system("pause");
+			system("pause");
 			system("cls");
 		}
 
@@ -75,20 +76,29 @@ void displayUniversityList() {
 	int min = 1;
 	int max = 100;
 	string input = "";
+	bool endOfList = false;
 
 	do {
-		uniList.displayList(min, max);
-		cout << "Continue? Enter 'Y' to continue displaying list: ";
-		cin >> input;
+		endOfList = uniList.display(min, max);
 
-		if (input == "Y") {
-			min += 100;
-			max += 100;
-			system("cls");
+		if (endOfList) {
+			cout << "End of University List!" << endl;
+			system("pause");
 		}
 
-	} while (input == "Y");
-}
+		else {
+			cout << "Continue? Enter 'Y' to continue displaying list: ";
+			cin >> input;
+
+			if (input == "Y") {
+				min += 100;
+				max += 100;
+				system("cls");
+			}
+		}
+
+	} while (input == "Y" && !endOfList);
+} 
 
 bool customerLogin() {
 	string username = "", password = "";
