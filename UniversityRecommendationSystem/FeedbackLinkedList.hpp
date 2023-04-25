@@ -22,8 +22,7 @@ public:
 	void removeFromFront(feedback* newNode);
 	void display();
 	feedBack* getTail();
-	feedBack* moveBack(feedBack*, int steps);
-	feedBack* moveForward(feedBack*, int steps);
+	feedBack* moveForthAndBack(feedBack*, int steps);
 };
 
 #endif

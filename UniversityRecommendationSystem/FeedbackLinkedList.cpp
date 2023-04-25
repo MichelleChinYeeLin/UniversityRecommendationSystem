@@ -31,35 +31,28 @@ feedBack* FeedbackLinkedList::getTail() {
 	return tail;
 }
 
-feedBack* FeedbackLinkedList::moveBack(feedBack*current, int steps) {
-	feedback* p = current;
-	while (p->prev) {
-		if (steps == 0) {
-			current = p;
-			cout << p->feedbackContent;
-			return current;
+feedBack* FeedbackLinkedList::moveForthAndBack(feedBack* current, int steps) {
+	//back
+	if (steps == 0) {
+		if (current->prev != NULL) {
+			current = current->prev;
+			cout << current->feedbackContent;
+		}else{
+			cout << "This is the earliest feedback!";
 		}
-		p = p->prev;
-		steps--;
 	}
-	current = p;
-	cout << p->feedbackContent;
-	return current;
-}
-
-feedBack* FeedbackLinkedList::moveForward(feedBack* current, int steps) {
-	feedback* p = current;
-	while (p->next) {
-		if (steps == 0) {
-			current = p;
-			cout << p->feedbackContent;
-			return current;
+	else if (steps == 1) {
+		if (current->next != NULL) {
+			current = current->next;
+			cout << current->feedbackContent;
 		}
-		p = p->next;
-		steps--;
+		else {
+			cout << "This is the latest feedback!";
+		}
 	}
-	current = p;
-	cout << p->feedbackContent;
+	else {
+		cout << "Invalid option! " << endl;
+	}
 	return current;
 }
 
@@ -91,5 +84,10 @@ int main() {
 	f->insertToEnd(2, "hello");
 	f->insertToEnd(3, "nihao");
 	feedBack* a = f->getTail();
-	f->moveBack(a,0);
+	a = f->moveForthAndBack(a, 0); //this will print hello
+	cout << "\n"<<a<<"\n";
+	a = f->moveForthAndBack(a, 0); //this will print hi
+	cout << "\n" << a<< "\n";
+	a = f->moveForthAndBack(a, 0); // this will print this is the earliest feedback
+	cout << "\n" << a << "\n";
 }
