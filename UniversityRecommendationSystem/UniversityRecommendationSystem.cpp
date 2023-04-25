@@ -1,5 +1,6 @@
 //#include "LinkedList.h"
 #include "FileIO.h"
+#include "Stack.h"
 //#include "University.h"
 #include <iostream>
 #include <iomanip>
@@ -9,7 +10,7 @@ using namespace std;
 //Function prototypes
 bool customerLogin();
 void customerMenu();
-void displayUniversityList(bool);
+void displayUniversityList(bool, Criteria);
 void addFavouriteUniversity(int, int);
 
 LinkedList<University> uniList;
@@ -62,10 +63,7 @@ int main() {
 		else if (input == 3) {
 			system("cls");
 			uniList.insertionSort(RANK, true);
-			displayUniversityList(false);
-
-			system("pause");
-			system("cls");
+			displayUniversityList(false, NAME);
 		}
 
 	} while (input != 4 || !valid);
@@ -73,9 +71,169 @@ int main() {
 	return 0;
 }
 
-void displayUniversityList(bool hasFav) {
+void displayUniversityList(bool hasFav, Criteria criteria) {
 
-	int min = 1;
+	int itemNum = 100;
+	string input = "";
+	
+	Stack<University> nextStack;
+	Stack<University> currentStack;
+	Stack<University> prevStack;
+
+	for (int i = uniList.getSize() - 1; i >= 0; i--) {
+		nextStack.push(uniList.getFromPosition(i)->data);
+	}
+
+	int numCount = 1;
+
+	do {
+
+		//Display header
+		cout << string(135, '=') << endl;
+		if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
+			cout << left << setw(5) << "No." << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
+		}
+
+		else {
+			string rank;
+			string score;
+
+			switch (criteria) {
+			case ARRANK:
+			case ARSCORE:
+				rank = "AR Rank";
+				score = "AR Score";
+				break;
+			case ERRANK:
+			case ERSCORE:
+				rank = "ER Rank";
+				score = "ER Score";
+				break;
+			case FSRRANK:
+			case FSRSCORE:
+				rank = "FSR Rank";
+				score = "FSR Score";
+				break;
+			case CPFRANK:
+			case CPFSCORE:
+				rank = "CPF Rank";
+				score = "CPF Score";
+				break;
+			case IFRRANK:
+			case IFRSCORE:
+				rank = "IFR Rank";
+				score = "IFR Score";
+				break;
+			case ISRRANK:
+			case ISRSCORE:
+				rank = "ISR Rank";
+				score = "ISR Score";
+				break;
+			case IRNRANK:
+			case IRNSCORE:
+				rank = "IRN Rank";
+				score = "IRN Score";
+				break;
+			case GERRANK:
+			case GERSCORE:
+				rank = "GER Rank";
+				score = "GER Score";
+				break;
+			case RANK:
+			case SCORE_SCALED:
+				rank = "Rank";
+				score = "Score Scaled";
+			}
+
+			cout << left << setw(5) << "No." << setw(10) << rank << setw(90) << "Name" << setw(15) << score << endl;
+		}
+		cout << string(135, '=') << endl;
+
+		int itemCount = 0;
+
+		while(!nextStack.isEmpty() && itemCount < itemNum) {
+			University university = nextStack.pop();
+			currentStack.push(university);
+
+			cout << left << setw(5) << numCount + itemCount;
+			university.display(criteria);
+
+			itemCount++;
+		}
+
+		if (hasFav) {
+			cout << endl << "Enter 'P' to view previous page, 'N' to view next page, 'F' to favourite a university: ";
+			cin >> input;
+
+			if (input == "F") {
+				addFavouriteUniversity(numCount, numCount + itemNum);
+			}
+		}
+
+		else {
+			cout << endl << "Enter 'P' to view previous page, 'N' to view next page: ";
+			cin >> input;
+		}
+
+		if (input == "P") {
+
+			while (!currentStack.isEmpty()) {
+				University temp = currentStack.pop();
+				nextStack.push(temp);
+			}
+
+			if (prevStack.isEmpty()) {
+
+				cout << "Previous data does not exist!" << endl;
+				system("pause");
+			}
+
+			else {
+				int count = itemNum;
+
+				while (!prevStack.isEmpty() && count > 0) {
+					University temp = prevStack.pop();
+					currentStack.push(temp);
+					count--;
+					numCount--;
+				}
+
+				while (!currentStack.isEmpty()) {
+					University temp = currentStack.pop();
+					nextStack.push(temp);
+				}
+			}
+		}
+
+		else if (input == "N") {
+
+			if (nextStack.isEmpty()) {
+
+				while (!currentStack.isEmpty()) {
+					University temp = currentStack.pop();
+					nextStack.push(temp);
+				}
+
+				cout << "Next data does not exist!" << endl;
+				system("pause");
+			}
+
+			else {
+				int count = itemNum;
+
+				while (!currentStack.isEmpty()) {
+					University temp = currentStack.pop();
+					prevStack.push(temp);
+					count--;
+					numCount++;
+				}
+			}
+		}
+
+		system("cls");
+	} while (input == "N" || input == "P" || input == "F");
+
+	/*int min = 1;
 	int max = 100;
 	string input = "";
 	bool endOfList = false;
@@ -112,7 +270,7 @@ void displayUniversityList(bool hasFav) {
 			}
 		}
 
-	} while ((input == "Y" && !endOfList) || input == "F");
+	} while ((input == "Y" && !endOfList) || input == "F");*/
 }
 
 void addFavouriteUniversity(int min, int max) {
@@ -300,13 +458,11 @@ void customerMenu() {
 				}
 
 				else {
+					system("cls");
 					bool isAscOrder = orderOption == 1 ? true : false;
 					//uniList.insertionSort(criteria, isAscOrder);
 					uniList.quickSort(criteria, isAscOrder);
-					displayUniversityList(true);
-
-					system("pause");
-					system("cls");
+					displayUniversityList(true, criteria);
 				}
 			}
 		}

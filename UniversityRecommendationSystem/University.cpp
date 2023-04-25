@@ -55,6 +55,71 @@ University::University(int rank, string name, string locationCode, string locati
 	this->scoreScaled = scoreScaled;
 }
 
+void University::display() {
+	cout << left << setw(5) << this->rank << setw(90) << this->name << setw(10) << this->locationCode
+		 << setw(30) << this->location << endl;
+}
+
+void University::display(Criteria criteria) {
+	if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
+		display();
+	}
+
+	else {
+		int rank = 0;
+		double score = 0;
+
+		switch (criteria) {
+		case ARRANK:
+		case ARSCORE:
+			rank = arRank;
+			score = arScore;
+			break;
+		case ERRANK:
+		case ERSCORE:
+			rank = erRank;
+			score = erScore;
+			break;
+		case FSRRANK:
+		case FSRSCORE:
+			rank = fsrRank;
+			score = fsrScore;
+			break;
+		case CPFRANK:
+		case CPFSCORE:
+			rank = cpfRank;
+			score = cpfScore;
+			break;
+		case IFRRANK:
+		case IFRSCORE:
+			rank = ifrRank;
+			score = ifrScore;
+			break;
+		case ISRRANK:
+		case ISRSCORE:
+			rank = isrRank;
+			score = isrScore;
+			break;
+		case IRNRANK:
+		case IRNSCORE:
+			rank = irnRank;
+			score = irnScore;
+			break;
+		case GERRANK:
+		case GERSCORE:
+			rank = gerRank;
+			score = gerScore;
+			break;
+		case RANK:
+		case SCORE_SCALED:
+			rank = rank;
+			score = scoreScaled;
+		}
+
+		cout << left << setw(5) << rank << setw(90) << this->name << setw(5) << score << endl;
+	}
+}
+
 void University::displayUniversitySummarized() {
 	cout << left << setw(5) << this->rank << setw(90) << this->name << setw(10) << this->locationCode 
 		 << setw(30) << this->location << endl;

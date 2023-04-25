@@ -130,7 +130,6 @@
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="LinkedList.cpp" />
-    <ClCompile Include="Stack.cpp" />
     <ClCompile Include="University.cpp" />
     <ClCompile Include="UniversityRecommendationSystem.cpp" />
   </ItemGroup>

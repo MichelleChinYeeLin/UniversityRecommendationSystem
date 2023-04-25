@@ -41,6 +41,7 @@ public:
 	int partition(Criteria, bool, int, int);
 	void swapNodePosition(Node<T>*, Node<T>*);
 	string toUpperCase(string);
+	int getSize();
 };
 
 template<class T>
@@ -225,6 +226,11 @@ void LinkedList<T>::swapNodePosition(Node<T>* node1, Node<T>* node2) {
 			node2Right->prev = node1;
 		}
 	}
+}
+
+template<class T>
+int LinkedList<T>::getSize() {
+	return size;
 }
 
 template<>

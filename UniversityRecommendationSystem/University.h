@@ -39,8 +39,8 @@ public:
 	University();
 	University(int, string, string, string, double, int, double, int, double, int, double, int, double,
 		int, double, int, double, int, double, int, double);
-	//void createUniversity(int, string, string, string, double, int, double, int, double, int, double, int, double,
-		//int, double, int, double, int, double, int, double);
+	void display();
+	void display(Criteria);
 	void displayUniversitySummarized();
 	string getUniversityStringValue(Criteria);
 	double getUniversityNumValue(Criteria);
