@@ -59,7 +59,7 @@ void homePage(hashTable* admin, hashTable* cus) {
 		else if (input == 4) {
 			system("cls");
 
-			/*displayUniversityList();*/
+			displayUniversityList();
 
 			system("pause");
 			system("cls");

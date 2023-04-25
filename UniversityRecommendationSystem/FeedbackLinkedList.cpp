@@ -78,16 +78,16 @@ void FeedbackLinkedList::display(){
 	}
 }
 
-int main() {
-	FeedbackLinkedList* f = new FeedbackLinkedList();
-	f->insertToEnd(1, "hi");
-	f->insertToEnd(2, "hello");
-	f->insertToEnd(3, "nihao");
-	feedBack* a = f->getTail();
-	a = f->moveForthAndBack(a, 0); //this will print hello
-	cout << "\n"<<a<<"\n";
-	a = f->moveForthAndBack(a, 0); //this will print hi
-	cout << "\n" << a<< "\n";
-	a = f->moveForthAndBack(a, 0); // this will print this is the earliest feedback
-	cout << "\n" << a << "\n";
-}
+//int main() {
+//	FeedbackLinkedList* f = new FeedbackLinkedList();
+//	f->insertToEnd(1, "hi");
+//	f->insertToEnd(2, "hello");
+//	f->insertToEnd(3, "nihao");
+//	feedBack* a = f->getTail();
+//	a = f->moveForthAndBack(a, 0); //this will print hello
+//	cout << "\n"<<a<<"\n";
+//	a = f->moveForthAndBack(a, 0); //this will print hi
+//	cout << "\n" << a<< "\n";
+//	a = f->moveForthAndBack(a, 0); // this will print this is the earliest feedback
+//	cout << "\n" << a << "\n";
+//}

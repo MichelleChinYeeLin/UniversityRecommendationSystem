@@ -2,35 +2,35 @@
 #include"CustomerPage.hpp"
 using namespace std;
 
-//void displayUniversityList() {
-//	FileIO fileIO;
-//	uniList = fileIO.readUniversityFile();
-//	int min = 1;
-//	int max = 100;
-//	string input = "";
-//	bool endOfList = false;
-//
-//	do {
-//		endOfList = uniList.display(min, max);
-//
-//		if (endOfList) {
-//			cout << "End of University List!" << endl;
-//			system("pause");
-//		}
-//
-//		else {
-//			cout << "Continue? Enter 'Y' to continue displaying list: ";
-//			cin >> input;
-//
-//			if (input == "Y") {
-//				min += 100;
-//				max += 100;
-//				system("cls");
-//			}
-//		}
-//
-//	} while (input == "Y" && !endOfList);
-//}
+void displayUniversityList() {
+	FileIO *fileIO = new FileIO();
+	LinkedList<University> uniList1 = fileIO->readUniversityFile();
+	int min = 1;
+	int max = 100;
+	string input = "";
+	bool endOfList = false;
+
+	do {
+		endOfList = uniList1.display(min, max);
+
+		if (endOfList) {
+			cout << "End of University List!" << endl;
+			system("pause");
+		}
+
+		else {
+			cout << "Continue? Enter 'Y' to continue displaying list: ";
+			cin >> input;
+
+			if (input == "Y") {
+				min += 100;
+				max += 100;
+				system("cls");
+			}
+		}
+
+	} while (input == "Y" && !endOfList);
+}
 
 void registerAsUser(hashTable* cus) {
 	string name, pw;
@@ -82,7 +82,7 @@ void customerMenu() {
 		cout << "1. Sort University Information" << endl;
 		cout << "2. Search University" << endl;
 		cout << "3. View Favorite Universities" << endl;
-		cout << "4. View Feedback" << endl;
+		cout << "4. Write Feedback" << endl;
 		cout << "5. Logout" << endl;
 		cout << "Enter option: ";
 		cin >> input;
@@ -114,4 +114,8 @@ void writeFeedback() {
 	string feedback;
 	cout << "Please enter your feedback: ";
 	cin >> feedback;
+}
+
+int main() {
+	return 0;
 }
