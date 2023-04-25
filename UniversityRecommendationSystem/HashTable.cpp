@@ -2,7 +2,7 @@
 #include "HashTable.h"
 using namespace std;
 
-int main(/*int argc, char** argv*/) {
+int HashTableMain(/*int argc, char** argv*/) {
 	hashTable hash;
 	string name = "";
 

@@ -5,6 +5,30 @@
 
 using namespace std;
 
+enum Criteria {
+	RANK,
+	NAME,
+	LOCATION_CODE,
+	LOCATION,
+	ARSCORE,
+	ARRANK,
+	ERSCORE,
+	ERRANK,
+	FSRSCORE,
+	FSRRANK,
+	CPFSCORE,
+	CPFRANK,
+	IFRSCORE,
+	IFRRANK,
+	ISRSCORE,
+	ISRRANK,
+	IRNSCORE,
+	IRNRANK,
+	GERSCORE,
+	GERRANK,
+	SCORE_SCALED
+};
+
 class University {
 private:
 	int rank;
@@ -18,6 +42,30 @@ public:
 	//void createUniversity(int, string, string, string, double, int, double, int, double, int, double, int, double,
 		//int, double, int, double, int, double, int, double);
 	void displayUniversitySummarized();
+	string getUniversityStringValue(Criteria);
+	double getUniversityNumValue(Criteria);
+
+	int getRank() { return rank; }
+	string getName() { return name; }
+	string getLocationCode() { return locationCode; }
+	string getLocation() { return location; }
+	double getArScore() { return arScore; }
+	int getArRank() { return arRank; }
+	double getErScore() { return erScore; }
+	int getErRank() { return erRank; }
+	double getFsrScore() { return fsrScore; }
+	int getFsrRank() { return fsrRank; }
+	double getCpfScore() { return cpfScore; }
+	int getCpfRank() { return cpfRank; }
+	double getIfrScore() { return ifrScore; }
+	int getIfrRank() { return ifrRank; }
+	double getIsrScore() { return isrScore; }
+	int getIsrRank() { return isrRank; }
+	double getIrnScore() { return irnScore; }
+	int getIrnRank() { return irnRank; }
+	double getGerScore() { return gerScore; }
+	int getGerRank() { return gerRank; }
+	double getScoreScaled() { return scoreScaled; }
 };
 
 #endif

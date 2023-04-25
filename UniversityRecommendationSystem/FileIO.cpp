@@ -11,12 +11,14 @@ LinkedList<University> FileIO::readUniversityFile() {
 	LinkedList<University> uniList;
 	ifstream file("2023 QS World University Rankings.csv");
 	
+	//Declaration of variables
 	string rank;
 	string name, locationCode, location;
 	double arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled;
 	int arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank;
 	int count = 0;
 
+	//Loop if end of file is not reached
 	while (file.good()) {
 		getline(file, rank, ',');
 
@@ -35,13 +37,19 @@ LinkedList<University> FileIO::readUniversityFile() {
 		string line = "";
 
 		try {
+
+			//Loop through the other 20 comma delimited values
 			for (int i = 0; i < 20; i++) {
 				string temp;
 
+				//If the value is name(i==0) or location(i==2)
 				if (i == 0 || i == 2) {
+
+					//Get the first char in the value
 					char test;
 					file.get(test);
 
+					//Value requires formatting if the first char is '"'
 					if (test == '"') {
 						getline(file, line, '"');
 						temp = line;
@@ -49,13 +57,18 @@ LinkedList<University> FileIO::readUniversityFile() {
 					}
 
 					else {
+						//Reset the file cursor to the first char of the value
 						int num = file.tellg();
 						file.seekg(num - 1);
+
+						//Read the value
 						getline(file, temp, ',');
 					}
 				}
 
+				//If the value is the last value
 				else if (i == 19) {
+					//Read the value until end line
 					getline(file, temp);
 				}
 
@@ -63,9 +76,10 @@ LinkedList<University> FileIO::readUniversityFile() {
 					getline(file, temp, ',');
 				}
 
-				
+				//Format the number values
 				temp = checkNumberValue(file, temp);
 
+				//Store the corresponding values in the variables
 				switch (i) {
 				case 0: name = temp;
 					break;
@@ -115,16 +129,19 @@ LinkedList<University> FileIO::readUniversityFile() {
 			system("cls");
 		}
 
+		//Create University object
 		University newUniversity(stoi(rank), name, locationCode, location, arScore, arRank,
 			erScore, erRank, fsrScore, fsrRank, cpfScore, cpfRank,
 			ifrScore, ifrRank, isrScore, isrRank, irnScore, irnRank, gerScore, gerRank, scoreScaled);
 
+		//Insert University object into linked list
 		uniList.insertToEnd(newUniversity);
 	}
 
 	return uniList;
 }
 
+//
 string FileIO::checkNameValue(ifstream& file) {
 
 	char temp;
@@ -138,6 +155,10 @@ string FileIO::checkNameValue(ifstream& file) {
 
 	int num = file.tellg();
 	file.seekg(num + 1);
+
+	while (value[0] == ' ') {
+		value = value.substr(1);
+	}
 
 	return value;
 }

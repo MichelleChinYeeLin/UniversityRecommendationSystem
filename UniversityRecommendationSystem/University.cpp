@@ -59,3 +59,80 @@ void University::displayUniversitySummarized() {
 	cout << left << setw(5) << this->rank << setw(90) << this->name << setw(10) << this->locationCode 
 		 << setw(30) << this->location << endl;
 }
+
+string University::getUniversityStringValue(Criteria criteria) {
+
+	switch (criteria) {
+	case NAME:
+		return name;
+		break;
+	case LOCATION_CODE:
+		return locationCode;
+		break;
+	case LOCATION:
+		return location;
+	}
+
+	return "";
+}
+
+double University::getUniversityNumValue(Criteria criteria) {
+
+	switch (criteria) {
+	case RANK:
+		return rank;
+		break;
+	case ARSCORE:
+		return arScore;
+		break;
+	case ARRANK:
+		return arRank;
+		break;
+	case ERSCORE:
+		return erScore;
+		break;
+	case ERRANK:
+		return erRank;
+		break;
+	case FSRSCORE:
+		return fsrScore;
+		break;
+	case FSRRANK:
+		return fsrRank;
+		break;
+	case CPFSCORE:
+		return cpfScore;
+		break;
+	case CPFRANK:
+		return cpfRank;
+		break;
+	case IFRSCORE:
+		return ifrScore;
+		break;
+	case IFRRANK:
+		return ifrRank;
+		break;
+	case ISRSCORE:
+		return isrScore;
+		break;
+	case ISRRANK:
+		return isrRank;
+		break;
+	case IRNSCORE:
+		return irnScore;
+		break;
+	case IRNRANK:
+		return irnRank;
+		break;
+	case GERSCORE:
+		return gerScore;
+		break;
+	case GERRANK:
+		return gerRank;
+		break;
+	case SCORE_SCALED:
+		return scoreScaled;
+	}
+
+	return 0;
+}
