@@ -37,10 +37,8 @@ public:
 };
 
 template<class T>
-Node<T>* LinkedList<T>::createNewNode(T data)
-{
+Node<T>* LinkedList<T>::createNewNode(T data){
 	Node<T>* newNode = new Node<T>(data);
-
 	return newNode;
 }
 

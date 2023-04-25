@@ -127,6 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CustomerPage.cpp" />
+    <ClCompile Include="CustomerPage.hpp" />
+    <ClCompile Include="FeedbackLinkedList.cpp" />
+    <ClCompile Include="MoHEPage.cpp" />
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="LinkedList.cpp" />
@@ -135,9 +139,11 @@
     <ClCompile Include="UniversityRecommendationSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HashTable.h" />
+    <ClInclude Include="FeedbackLinkedList.hpp" />
+    <ClInclude Include="HashTable.hpp" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="MoHEPage.hpp" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="University.h" />
   </ItemGroup>
