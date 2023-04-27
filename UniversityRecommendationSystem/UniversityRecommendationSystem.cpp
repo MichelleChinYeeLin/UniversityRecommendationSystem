@@ -352,6 +352,7 @@ void customerMenu() {
 	do {
 		valid = true;
 
+		cout << "========== Customer Menu ==========" << endl;
 		cout << "1. Sort University Information" << endl;
 		cout << "2. Search University" << endl;
 		cout << "3. View Favorite Universities" << endl;
@@ -372,7 +373,8 @@ void customerMenu() {
 		}
 		else if (input == 1) {
 			int categoryInput = 0;
-
+			cout << "========== Sort University Information ==========" << endl << endl;
+			cout << "=============== Category ===============" << endl;
 			cout << "1.  Rank" << endl;
 			cout << "2.  Institution Name" << endl;
 			cout << "3.  Location Code" << endl;
@@ -442,6 +444,7 @@ void customerMenu() {
 				int orderOption = 0;
 
 				cout << endl << endl;
+				cout << "========== Order ==========" << endl;
 				cout << "1. Ascending order" << endl;
 				cout << "2. Descending order" << endl;
 				cout << "Enter option: ";
@@ -466,21 +469,26 @@ void customerMenu() {
 			}
 		}
 		else if (input == 2) {
-				string name = "";
-				cout << "Please enter the university search for: ";
-				cin.ignore();
-				getline(cin, name);
-				University key;
-				key.setName(name);
-				uniList.insertionSort(NAME, 1);
-				//Node<University>* result = uniList.binarySearch(key);
-				Node<University>* result = uniList.linearSearch(key);
-				if (result == NULL) {
-					cout << "University was not found" << endl;
-				}
-				else {
-					cout << "University was found" << endl;
-				}
+			string name = "";
+			cout << endl << endl;
+			cout << "========== Search University ==========" << endl << endl;
+			cout << "Please enter the university search for: ";
+			cin.ignore();
+			getline(cin, name);
+			University key;
+			key.setName(name);
+			uniList.insertionSort(NAME, 1);
+			//Node<University>* result = uniList.binarySearch(key);
+			Node<University>* result = uniList.linearSearch(key);
+			if (result == NULL) {
+				cout << "University was not found..." << endl << endl;
+			}
+			else {
+				cout << result->data.getName() << setw(10) <<
+					result->data.getLocationCode() << setw(30) <<
+					result ->data.getLocation() << endl;
+				cout << "University was found!" << endl << endl;
+			}
 		}
 		else if (input == 3) {
 

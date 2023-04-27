@@ -34,7 +34,6 @@ public:
 	void deleteFromFront();
 	void deleteFromEnd();
 	Node<T>* getFromPosition(int);
-	Node<T>* middle(Node<T>* node1, Node<T>* node2);
 	Node<T>* binarySearch(T key);
 	Node<T>* linearSearch(T key);
 	//Node<T>* jumpSearch(T key);
@@ -238,28 +237,13 @@ int LinkedList<T>::getSize() {
 }
 
 template<class T>
-Node<T>* LinkedList<T>::middle(Node<T>* start, Node<T>* last) {
-	if (start == NULL) {
-		return NULL;
-	}
-
-	Node<T>* first = start;
-	Node<T>* second = start->next;
-
-	while (first != last) {
-		first = first->next;
-		if (first != last) {
-			second = second->next;
-			first = first->next;
-		}
-	}
-	return second;
-}
-
-template<class T>
 Node<T>* LinkedList<T>::linearSearch(T key) {
+	// assign cur pointer points to head
 	Node<T>* cur = head;
+
+	//loop through linked list
 	while (cur){
+		// found
 		if (cur->data.getName() == key.getName()) {
 			return cur;
 		}
@@ -270,29 +254,42 @@ Node<T>* LinkedList<T>::linearSearch(T key) {
 
 template<class T >
 Node<T>* LinkedList<T>::binarySearch(T key) {
+	// get the size of linked list
 	int size = this->getSize();
+
+	// if the linked list is empty
 	if (size == 0) {
 		return NULL;
 	}
 
+	// set boundaries (low: the first index, high: the last index)
 	int low = 0;
 	int high = size - 1;
 
 	while (low <= high) {
+		// find the middle
 		int mid = (low + high) / 2;
+
 		Node<T>* node = this->getFromPosition(mid);
 		string nodeValue = node->data.getName();
 
+		// found
 		if (nodeValue == key.getName()) {
 			return node;
 		}
+
+		// nodeValue < key
 		else if (nodeValue < key.getName()) {
 			low = mid + 1;
 		}
+
+		// nodeValue > key
 		else {
 			high = mid - 1;
 		}
 	}
+
+	// not found
 	return NULL;
 }
 
