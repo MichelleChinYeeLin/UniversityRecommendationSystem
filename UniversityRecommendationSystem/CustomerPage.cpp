@@ -9,6 +9,7 @@ void displayUniversityList() {
 	int max = 100;
 	string input = "";
 	bool endOfList = false;
+	cout << "===== Display University List =====" << endl;
 
 	do {
 		endOfList = uniList1.display(min, max);
@@ -35,15 +36,20 @@ void displayUniversityList() {
 void registerAsUser(hashTable* cus) {
 	string name, pw;
 	char input;
+	cout << "===== Customer Register Page =====" << endl << endl;
 	cout << "Please enter your name: ";
-	cin >> name;
+	cin.ignore();
+	getline(cin,name);
 	cout << "Please enter your password: ";
 	cin >> pw;
 	cus->addUserAcc(name, pw);
 	while (true) {
-		cout << "Congragulations! You successfully registered as customer! Enter Q to quit " << endl;
+		cout << "\nCongragulations! You successfully registered as customer! Enter Q to quit " << endl;
 		cin >> input;
+		cout << endl;
 		if (input == 'Q') {
+			cout << "==================================" << endl;
+			system("cls");
 			return;
 		}
 		else {
@@ -56,6 +62,7 @@ void customerMenu(FeedbackLinkedList* cus,string username) {
 	int input = 0;
 	bool valid = false;
 
+	cout << "\n\n===== Customer Menu =====" << endl << endl;
 	//Display menu
 	do {
 		cout << "1. Sort University Information" << endl;
@@ -88,6 +95,7 @@ void customerMenu(FeedbackLinkedList* cus,string username) {
 		}
 		else if (input == 5) {
 			valid = false;
+			system("cls");
 			return;
 		}
 	} while (input != 5 || !valid);
@@ -99,6 +107,8 @@ void writeFeedback(string username,FeedbackLinkedList* cus) {
 	time_t now2 = time(NULL);
 	tm* currentTime = localtime(&now);
 	tm* replyTime = localtime(&now2);
+
+	cout << "===== Write Feedback =====" << endl << endl;
 	cout << "Please enter your feedback: ";
 	cin.ignore();
 	getline(cin,feedback);

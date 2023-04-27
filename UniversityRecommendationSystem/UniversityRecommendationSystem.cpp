@@ -11,8 +11,10 @@ bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1) {
 	string username, password;
 	bool valid = false;
 
+	cout << "===== Customer Login Page =====" << endl << endl;
 	cout << "Please enter your username: ";
-	cin >> username;
+	cin.ignore();
+	getline(cin, username);
 	string realPassword = cus->searchForUsername(username);
 
 	while (true) {
@@ -35,6 +37,7 @@ bool MoHELogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 	string username, password;
 	bool valid = true;
 
+	cout << "===== MoHE Login Page =====" << endl;
 	cout << "Please enter your username: ";
 	cin >> username;
 	string realPassword = admin->searchForUsername(username);

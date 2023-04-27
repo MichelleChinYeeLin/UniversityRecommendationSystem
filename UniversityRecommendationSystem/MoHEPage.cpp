@@ -4,12 +4,14 @@ using namespace std;
 
 void displayUserDetails(hashTable* cus) {
 	system("cls");
-	cout << "-----Display user details-----" << endl;
+	cout << "===== Display user details =====" << endl;
 	cus->printTable();
 }
 
 void modifyUserDetails(hashTable* cus) {
 	string username;
+	system("cls");
+	cout << "===== Modify user details =====" << endl;
 	cout << "Please enter the user you want to update its password: ";
 	cin >> username;
 	cus->updatePwd(username);
@@ -17,18 +19,22 @@ void modifyUserDetails(hashTable* cus) {
 
 void deleteUserAccounts(hashTable* cus) {
 	string username;
+	system("cls");
+	cout << "===== Delete user accounts =====" << endl;
 	cout << "Please enter the user you want to delete: ";
 	cin >> username;
 	cus->removeUserAcc(username);
 }
 
 void readFeedback(FeedbackLinkedList*admin) {
+	system("cls");
 	cout << "===== Read Feedback =====" << endl;
 	admin->display();
 }
 
 void replyFeedback() {
-
+	system("cls");
+	cout << "===== Read Feedback =====" << endl;
 }
 
 void MoHEMenu(hashTable* cus, FeedbackLinkedList*cus1) {
@@ -70,7 +76,7 @@ void MoHEMenu(hashTable* cus, FeedbackLinkedList*cus1) {
 			readFeedback(cus1);
 		}
 		else if (input == 5) {
-
+			replyFeedback();
 		}
 		else if (input == 6) {
 
