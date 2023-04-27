@@ -37,7 +37,7 @@ public:
 	Node<T>* middle(Node<T>* node1, Node<T>* node2);
 	Node<T>* binarySearch(T key);
 	Node<T>* linearSearch(T key);
-	Node<T>* jumpSearch(T key);
+	//Node<T>* jumpSearch(T key);
 	bool display(int, int);
 	void insertionSort(Criteria, bool);
 	void quickSort(Criteria, bool);
@@ -296,37 +296,37 @@ Node<T>* LinkedList<T>::binarySearch(T key) {
 	return NULL;
 }
 
-template<class T>
-Node<T>* LinkedList<T>::jumpSearch(T key) {
-	int n = 0;
-	Node<T>* curr = head;
-
-	while (curr != nullptr) {
-		n++;
-		curr = curr->next;
-	}
-
-	int jump = sqrt(n);
-	curr = head;
-	Node<T>* prev = nullptr;
-
-	while (curr != nullptr && curr->data.getName() < key.getName()) {
-		prev = curr;
-		for (int i = 0; i < jump && curr != nullptr; i++) {
-			curr = curr->next;
-		}
-	}
-
-	while (prev != nullptr && prev->data.getName() < key.getName()) {
-		prev = prev->next;
-	}
-
-	if (prev != nullptr && prev->data.getName() == key.getName()) {
-		return prev;
-	}
-
-	return nullptr;
-}
+//template<class T>
+//Node<T>* LinkedList<T>::jumpSearch(T key) {
+//	int n = 0;
+//	Node<T>* curr = head;
+//
+//	while (curr != nullptr) {
+//		n++;
+//		curr = curr->next;
+//	}
+//
+//	int jump = sqrt(n);
+//	curr = head;
+//	Node<T>* prev = nullptr;
+//
+//	while (curr != nullptr && curr->data.getName() < key.getName()) {
+//		prev = curr;
+//		for (int i = 0; i < jump && curr != nullptr; i++) {
+//			curr = curr->next;
+//		}
+//	}
+//
+//	while (prev != nullptr && prev->data.getName() < key.getName()) {
+//		prev = prev->next;
+//	}
+//
+//	if (prev != nullptr && prev->data.getName() == key.getName()) {
+//		return prev;
+//	}
+//
+//	return nullptr;
+//}
 
 template<>
 bool LinkedList<University>::display(int min, int max);
