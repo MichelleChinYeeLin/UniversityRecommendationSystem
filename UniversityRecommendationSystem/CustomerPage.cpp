@@ -2,6 +2,7 @@
 #include"CustomerPage.hpp"
 using namespace std;
 
+
 void displayUniversityList() {
 	FileIO *fileIO = new FileIO();
 	LinkedList<University> uniList1 = fileIO->readUniversityFile();
@@ -52,7 +53,7 @@ void registerAsUser(hashTable* cus) {
 	}
 }
 
-bool customerLogin(hashTable* cus) {
+bool customerLogin(hashTable* cus,FeedbackLinkedList*cus1) {
 	string username, password;
 	bool valid = true;
 
@@ -64,7 +65,7 @@ bool customerLogin(hashTable* cus) {
 		cout << "Please enter your password: ";
 		cin >> password;
 		if (password == realPassword) {
-			customerMenu();
+			customerMenu(cus1,username);
 		}
 		else {
 			cout << "Wrong password! Please try again!\n";
@@ -73,7 +74,7 @@ bool customerLogin(hashTable* cus) {
 	return false;
 }
 
-void customerMenu() {
+void customerMenu(FeedbackLinkedList* cus,string username) {
 	int input = 0;
 	bool valid = false;
 
@@ -105,20 +106,20 @@ void customerMenu() {
 
 		}
 		else if (input == 4) {
-			writeFeedback();
+			writeFeedback(username,cus);
 		}
 	} while (input != 5 || !valid);
 }
 
-void writeFeedback(FeedbackLinkedList* cus) {
+void writeFeedback(string username,FeedbackLinkedList* cus) {
 	string feedback;
-	string username;
+	struct tm newTime;
 	time_t now = time(0);
 	tm* tm = localtime(&now);
 	cout << "Please enter your feedback: ";
 	cin.ignore();
 	getline(cin,feedback);
-	cus->insertToEnd(username, tm, feedback);
+	cus->insertToEnd(username, tm, feedback,false,tm);
 }
 
 //int main() {

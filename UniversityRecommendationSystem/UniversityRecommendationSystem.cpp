@@ -39,12 +39,7 @@ void homePage(hashTable* admin, hashTable* cus) {
 		}
 
 		else if (input == 2) {
-			valid = customerLogin(cus);
-
-			if (valid) {
-				customerMenu();
-				valid = false;
-			}
+			customerLogin(cus);
 		}
 
 		else if (input == 3) {
@@ -71,6 +66,7 @@ void homePage(hashTable* admin, hashTable* cus) {
 int main() {
 	hashTable* cus = new hashTable();
 	hashTable* admin = new hashTable();
+	FeedbackLinkedList* cus1 = new FeedbackLinkedList();
 	admin->addUserAcc("hello", "12345"); //admin account
 	homePage(admin, cus);
 	return 0;
