@@ -6,8 +6,7 @@
 #include"FeedbackLinkedList.hpp"
 using namespace std;
 
-bool MoHELogin(hashTable* admin, hashTable* cus);
-void MoHEMenu(hashTable* cus);
+void MoHEMenu(hashTable* cus, FeedbackLinkedList* cus1);
 void displayUserDetails(hashTable* cus);
 void modifyUserDetails(hashTable* cus);
 void deleteUserAccounts(hashTable* cus);

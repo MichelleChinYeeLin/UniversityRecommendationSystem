@@ -11,7 +11,6 @@
 
 using namespace std;
 
-bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1);
 void customerMenu(FeedbackLinkedList* cus, string username);
 void displayUniversityList();
 void registerAsUser(hashTable* cus);

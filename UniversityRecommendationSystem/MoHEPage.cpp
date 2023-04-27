@@ -23,7 +23,7 @@ void deleteUserAccounts(hashTable* cus) {
 }
 
 void readFeedback(FeedbackLinkedList*admin) {
-	cout << "===== Read Feedback =====";
+	cout << "===== Read Feedback =====" << endl;
 	admin->display();
 }
 
@@ -31,28 +31,7 @@ void replyFeedback() {
 
 }
 
-bool MoHELogin(hashTable* admin, hashTable* cus) {
-	string username, password;
-	bool valid = true;
-
-	cout << "Please enter your username: ";
-	cin >> username;
-	string realPassword = admin->searchForUsername(username);
-
-	while (true) {
-		cout << "Please enter your password: ";
-		cin >> password;
-		if (password == realPassword) {
-			MoHEMenu(cus);
-		}
-		else {
-			cout << "Wrong password! Please try again!\n";
-		}
-	}
-	return false;
-}
-
-void MoHEMenu(hashTable* cus) {
+void MoHEMenu(hashTable* cus, FeedbackLinkedList*cus1) {
 	int input = 0;
 	bool valid = true;
 
@@ -88,13 +67,17 @@ void MoHEMenu(hashTable* cus) {
 			deleteUserAccounts(cus);
 		}
 		else if (input == 4) {
-
+			readFeedback(cus1);
 		}
 		else if (input == 5) {
 
 		}
 		else if (input == 6) {
 
+		}
+		else if (input == 7) {
+			valid = false;
+			return;
 		}
 	} while (input != 7 || !valid);
 }

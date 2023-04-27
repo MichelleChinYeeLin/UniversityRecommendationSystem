@@ -7,6 +7,51 @@
 #include <iostream>
 using namespace std;
 
+bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1) {
+	string username, password;
+	bool valid = false;
+
+	cout << "Please enter your username: ";
+	cin >> username;
+	string realPassword = cus->searchForUsername(username);
+
+	while (true) {
+		cout << "Please enter your password: ";
+		cin >> password;
+		if (password == realPassword) {
+			customerMenu(cus1, username);
+			valid = true;
+			break;
+		}
+		else {
+			valid = false;
+			cout << "Wrong password! Please try again!\n";
+		}
+	}
+	return valid;
+}
+
+bool MoHELogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
+	string username, password;
+	bool valid = true;
+
+	cout << "Please enter your username: ";
+	cin >> username;
+	string realPassword = admin->searchForUsername(username);
+
+	while (true) {
+		cout << "Please enter your password: ";
+		cin >> password;
+		if (password == realPassword) {
+			MoHEMenu(cus,cus1);
+		}
+		else {
+			cout << "Wrong password! Please try again!\n";
+		}
+	}
+	return false;
+}
+
 // home page for admin to login and for customer to login/register
 void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList*cus1) {
 	int input = 0;
@@ -39,14 +84,14 @@ void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList*cus1) {
 		}
 
 		else if (input == 2) {
-			customerLogin(cus,cus1);
+			customerLogin(cus, cus1);
 		}
 
 		else if (input == 3) {
-			valid = MoHELogin(admin, cus);
+			valid = MoHELogin(admin, cus,cus1);
 
 			if (valid) {
-				MoHEMenu(cus);
+				MoHEMenu(cus,cus1);
 				valid = false;
 			}
 		}

@@ -52,27 +52,6 @@ void registerAsUser(hashTable* cus) {
 	}
 }
 
-bool customerLogin(hashTable* cus,FeedbackLinkedList*cus1) {
-	string username, password;
-	bool valid = true;
-
-	cout << "Please enter your username: ";
-	cin >> username;
-	string realPassword = cus->searchForUsername(username);
-
-	while (true) {
-		cout << "Please enter your password: ";
-		cin >> password;
-		if (password == realPassword) {
-			customerMenu(cus1,username);
-		}
-		else {
-			cout << "Wrong password! Please try again!\n";
-		}
-	}
-	return false;
-}
-
 void customerMenu(FeedbackLinkedList* cus,string username) {
 	int input = 0;
 	bool valid = false;
@@ -108,8 +87,8 @@ void customerMenu(FeedbackLinkedList* cus,string username) {
 			writeFeedback(username,cus);
 		}
 		else if (input == 5) {
-			cout << "Logout..." << endl;
-
+			valid = false;
+			return;
 		}
 	} while (input != 5 || !valid);
 }

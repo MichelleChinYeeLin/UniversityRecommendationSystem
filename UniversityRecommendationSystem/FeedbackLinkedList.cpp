@@ -76,8 +76,10 @@ void FeedbackLinkedList::removeFromFront(feedback* newNode) {
 void FeedbackLinkedList::display(){
 	feedback* temp = head;
 	while (temp != NULL) {
-		cout << temp->feedbackTime << endl;
+		cout << asctime(temp->feedbackTime);
+		cout << temp->userName << endl;
 		cout << temp->feedbackContent << endl;
+		cout << endl << endl;
 		temp = temp->next;
 	}
 }
