@@ -3,6 +3,7 @@
 #include "University.h"
 #include <iostream>
 #include <iomanip>
+#include<string>
 
 using namespace std;
 
@@ -19,6 +20,16 @@ struct Node {
 	}
 };
 
+//template <class T>
+//bool operator<(const T& lhs, const T& rhs) {
+//	return lhs < rhs;
+//}
+//
+//template <class T>
+//bool operator==(const T& lhs, const T& rhs) {
+//	return lhs == rhs;
+//}
+
 template<class T>
 class LinkedList {
 	Node<T>* head = NULL;
@@ -27,13 +38,16 @@ class LinkedList {
 
 public:
 	LinkedList() {};
-
 	Node<T>* createNewNode(T);
 	void insertToFront(T);
 	void insertToEnd(T);
 	void deleteFromFront();
 	void deleteFromEnd();
 	Node<T>* getFromPosition(int);
+	Node<T>* middle(Node<T>* node1, Node<T>* node2);
+	Node<T>* binarySearch(T key);
+	Node<T>* linearSearch(T key);
+	Node<T>* jumpSearch(T key);
 	bool display(int, int);
 	void insertionSort(Criteria, bool);
 	void quickSort(Criteria, bool);
@@ -233,6 +247,97 @@ int LinkedList<T>::getSize() {
 	return size;
 }
 
+template<class T>
+Node<T>* LinkedList<T>::middle(Node<T>* start, Node<T>* last) {
+	if (start == NULL) {
+		return NULL;
+	}
+
+	Node<T>* first = start;
+	Node<T>* second = start->next;
+
+	while (first != last) {
+		first = first->next;
+		if (first != last) {
+			second = second->next;
+			first = first->next;
+		}
+	}
+	return second;
+}
+
+template<class T>
+Node<T>* LinkedList<T>::linearSearch(T key) {
+	Node<T>* cur = head;
+	while (cur){
+		if (cur->data.getName() == key.getName()) {
+			return cur;
+		}
+		cur = cur->next;
+	}
+	return NULL;
+}
+
+template<class T >
+Node<T>* LinkedList<T>::binarySearch(T key) {
+	int size = this->getSize();
+	if (size == 0) {
+		return NULL;
+	}
+
+	int low = 0;
+	int high = size - 1;
+
+	while (low <= high) {
+		int mid = (low + high) / 2;
+		Node<T>* node = this->getFromPosition(mid);
+		string nodeValue = node->data.getName();
+
+		if (nodeValue == key.getName()) {
+			return node;
+		}
+		else if (nodeValue < key.getName()) {
+			low = mid + 1;
+		}
+		else {
+			high = mid - 1;
+		}
+	}
+	return NULL;
+}
+
+template<class T>
+Node<T>* LinkedList<T>::jumpSearch(T key) {
+	int n = 0;
+	Node<T>* curr = head;
+
+	while (curr != nullptr) {
+		n++;
+		curr = curr->next;
+	}
+
+	int jump = sqrt(n);
+	curr = head;
+	Node<T>* prev = nullptr;
+
+	while (curr != nullptr && curr->data.getName() < x.getName()) {
+		prev = curr;
+		for (int i = 0; i < jump && curr != nullptr; i++) {
+			curr = curr->next;
+		}
+	}
+
+	while (prev != nullptr && prev->data.getName() < x.getName()) {
+		prev = prev->next;
+	}
+
+	if (prev != nullptr && prev->data.getName() == x.getName()) {
+		return prev;
+	}
+
+	return nullptr;
+}
+
 template<>
 bool LinkedList<University>::display(int min, int max);
 
@@ -247,4 +352,5 @@ void LinkedList<University>::quickSortRecursive(Criteria, bool, int, int);
 
 template<>
 int LinkedList<University>::partition(Criteria, bool, int, int);
+
 #endif

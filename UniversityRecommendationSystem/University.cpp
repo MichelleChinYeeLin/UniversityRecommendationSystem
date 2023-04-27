@@ -28,6 +28,10 @@ University::University() {
 	this->scoreScaled = 0;
 }
 
+void University::setName(string name) {
+	this->name = name;
+}
+
 University::University(int rank, string name, string locationCode, string location, double arScore, int arRank, 
 	double erScore, int erRank, double fsrScore, int fsrRank, double cpfScore, int cpfRank, double ifrScore, 
 	int ifrRank, double isrScore, int isrRank, double irnScore, int irnRank, double gerScore, int gerRank, double scoreScaled)

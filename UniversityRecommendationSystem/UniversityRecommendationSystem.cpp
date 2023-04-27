@@ -3,6 +3,7 @@
 #include "Stack.h"
 //#include "University.h"
 #include <iostream>
+#include<string>
 #include <iomanip>
 #include <limits>
 using namespace std;
@@ -14,12 +15,11 @@ void displayUniversityList(bool, Criteria);
 void addFavouriteUniversity(int, int);
 
 LinkedList<University> uniList;
+LinkedList<University> uniList1;
 
 int main() {
-	
 	FileIO fileIO;
 	uniList = fileIO.readUniversityFile();
-	
 	int input = 0;
 	bool valid = true;
 
@@ -371,7 +371,6 @@ void customerMenu() {
 			valid = false;
 		}
 		else if (input == 1) {
-
 			int categoryInput = 0;
 
 			cout << "1.  Rank" << endl;
@@ -468,6 +467,21 @@ void customerMenu() {
 		}
 		else if (input == 2) {
 
+				string name = "";
+				cout << "Please enter the university search for: ";
+				cin.ignore();
+				getline(cin, name);
+				University key;
+				key.setName(name);
+				uniList.insertionSort(NAME, 1);
+				//Node<University>* result = uniList.binarySearch(key);
+				Node<University>* result = uniList.linearSearch(key);
+				if (result == NULL) {
+					cout << "University was not found" << endl;
+				}
+				else {
+					cout << "University was found" << endl;
+				}
 		}
 		else if (input == 3) {
 
