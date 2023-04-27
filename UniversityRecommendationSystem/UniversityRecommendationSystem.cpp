@@ -8,7 +8,7 @@
 using namespace std;
 
 // home page for admin to login and for customer to login/register
-void homePage(hashTable* admin, hashTable* cus) {
+void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList*cus1) {
 	int input = 0;
 	bool valid = true;
 
@@ -39,7 +39,7 @@ void homePage(hashTable* admin, hashTable* cus) {
 		}
 
 		else if (input == 2) {
-			customerLogin(cus);
+			customerLogin(cus,cus1);
 		}
 
 		else if (input == 3) {
@@ -68,6 +68,6 @@ int main() {
 	hashTable* admin = new hashTable();
 	FeedbackLinkedList* cus1 = new FeedbackLinkedList();
 	admin->addUserAcc("hello", "12345"); //admin account
-	homePage(admin, cus);
+	homePage(admin, cus,cus1);
 	return 0;
 }

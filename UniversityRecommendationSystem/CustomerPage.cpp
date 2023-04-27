@@ -1,7 +1,6 @@
-#include<iostream>
 #include"CustomerPage.hpp"
+#include<iostream>
 using namespace std;
-
 
 void displayUniversityList() {
 	FileIO *fileIO = new FileIO();
@@ -108,20 +107,24 @@ void customerMenu(FeedbackLinkedList* cus,string username) {
 		else if (input == 4) {
 			writeFeedback(username,cus);
 		}
+		else if (input == 5) {
+			cout << "Logout..." << endl;
+
+		}
 	} while (input != 5 || !valid);
 }
 
 void writeFeedback(string username,FeedbackLinkedList* cus) {
 	string feedback;
-	struct tm newTime;
 	time_t now = time(0);
-	tm* tm = localtime(&now);
+	time_t now2 = time(NULL);
+	tm* currentTime = localtime(&now);
+	tm* replyTime = localtime(&now2);
 	cout << "Please enter your feedback: ";
 	cin.ignore();
 	getline(cin,feedback);
-	cus->insertToEnd(username, tm, feedback,false,tm);
+	cus->insertToEnd(username, currentTime, feedback,false,replyTime);
 }
 
-//int main() {
-//	return 0;
+//int main  //	return 0;
 //}

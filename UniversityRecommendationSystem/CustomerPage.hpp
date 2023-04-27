@@ -1,6 +1,5 @@
 #ifndef CUSTOMERPAGE_H
 #define CUSTOMERPAGE_H
-#define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
 #include <string>
@@ -12,7 +11,7 @@
 
 using namespace std;
 
-bool customerLogin(hashTable* cus);
+bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1);
 void customerMenu(FeedbackLinkedList* cus, string username);
 void displayUniversityList();
 void registerAsUser(hashTable* cus);
