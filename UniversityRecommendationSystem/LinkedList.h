@@ -20,16 +20,6 @@ struct Node {
 	}
 };
 
-//template <class T>
-//bool operator<(const T& lhs, const T& rhs) {
-//	return lhs < rhs;
-//}
-//
-//template <class T>
-//bool operator==(const T& lhs, const T& rhs) {
-//	return lhs == rhs;
-//}
-
 template<class T>
 class LinkedList {
 	Node<T>* head = NULL;
@@ -320,18 +310,18 @@ Node<T>* LinkedList<T>::jumpSearch(T key) {
 	curr = head;
 	Node<T>* prev = nullptr;
 
-	while (curr != nullptr && curr->data.getName() < x.getName()) {
+	while (curr != nullptr && curr->data.getName() < key.getName()) {
 		prev = curr;
 		for (int i = 0; i < jump && curr != nullptr; i++) {
 			curr = curr->next;
 		}
 	}
 
-	while (prev != nullptr && prev->data.getName() < x.getName()) {
+	while (prev != nullptr && prev->data.getName() < key.getName()) {
 		prev = prev->next;
 	}
 
-	if (prev != nullptr && prev->data.getName() == x.getName()) {
+	if (prev != nullptr && prev->data.getName() == key.getName()) {
 		return prev;
 	}
 

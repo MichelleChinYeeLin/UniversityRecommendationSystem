@@ -466,7 +466,6 @@ void customerMenu() {
 			}
 		}
 		else if (input == 2) {
-
 				string name = "";
 				cout << "Please enter the university search for: ";
 				cin.ignore();
