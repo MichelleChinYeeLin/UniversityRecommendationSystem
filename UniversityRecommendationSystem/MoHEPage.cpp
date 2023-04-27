@@ -22,8 +22,9 @@ void deleteUserAccounts(hashTable* cus) {
 	cus->removeUserAcc(username);
 }
 
-void readFeedback() {
-	
+void readFeedback(FeedbackLinkedList*admin) {
+	cout << "===== Read Feedback =====";
+	admin->display();
 }
 
 void replyFeedback() {

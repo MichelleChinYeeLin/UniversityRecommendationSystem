@@ -2,12 +2,11 @@
 #define CUSTOMERPAGE_H
 
 #include <iostream>
-#include <iomanip>
-#include <limits>
+#include <string>
+#include <ctime>
 #include "FileIO.h"
 #include"HashTable.hpp"
-#include "FileIO.h"
-#include"LinkedList.h"
+#include"FeedbackLinkedList.hpp"
 #include "University.h"
 
 using namespace std;
@@ -16,6 +15,6 @@ bool customerLogin(hashTable* cus);
 void customerMenu();
 void displayUniversityList();
 void registerAsUser(hashTable* cus);
-void writeFeedback();
+void writeFeedback(FeedbackLinkedList * cus);
 
 #endif

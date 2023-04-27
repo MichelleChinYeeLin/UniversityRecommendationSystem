@@ -68,10 +68,10 @@ void homePage(hashTable* admin, hashTable* cus) {
 	} while (input != 5 || !valid);
 }
 
-//int main() {
-//	hashTable* cus = new hashTable();
-//	hashTable* admin = new hashTable();
-//	admin->addUserAcc("hello", "12345"); //admin account
-//	homePage(admin, cus);
-//	return 0;
-//}
+int main() {
+	hashTable* cus = new hashTable();
+	hashTable* admin = new hashTable();
+	admin->addUserAcc("hello", "12345"); //admin account
+	homePage(admin, cus);
+	return 0;
+}

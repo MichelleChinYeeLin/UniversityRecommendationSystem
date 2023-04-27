@@ -8,10 +8,14 @@ FeedbackLinkedList::FeedbackLinkedList() {
 	size = 0;
 }
 
-void FeedbackLinkedList::insertToEnd(int feedbackID, string feedbackContent) {
+void FeedbackLinkedList::insertToEnd(string userName, tm* feedbackTime, 
+	string feedbackContent, bool replied, tm* repliedTime) {
 	feedback*newNode = new feedback;
-	newNode->feedbackID = feedbackID;
+	newNode->userName = userName;
+	newNode->feedbackTime = feedbackTime;
 	newNode->feedbackContent = feedbackContent;
+	newNode->replied = replied;
+	newNode->repliedTime = repliedTime;
 	newNode->prev = NULL;
 	newNode->next = NULL;
 
@@ -72,7 +76,7 @@ void FeedbackLinkedList::removeFromFront(feedback* newNode) {
 void FeedbackLinkedList::display(){
 	feedback* temp = head;
 	while (temp != NULL) {
-		cout << temp->feedbackID << endl;
+		cout << temp->feedbackTime << endl;
 		cout << temp->feedbackContent << endl;
 		temp = temp->next;
 	}

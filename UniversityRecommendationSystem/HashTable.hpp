@@ -18,6 +18,9 @@ private:
 
 public:
 	hashTable();
+	string getUsername() {
+		return userName;
+	}
 	int hash(string username);
 	void addUserAcc(string username, string password);
 	int numberOfItemsInIndex(int index);

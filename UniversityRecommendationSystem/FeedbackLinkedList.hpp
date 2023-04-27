@@ -5,8 +5,11 @@
 using namespace std;
 
 typedef struct feedback {
-	int feedbackID;
+	string userName;
+	tm* feedbackTime;
 	string feedbackContent;
+	bool replied;
+	tm* repliedTime;
 	feedback* prev;
 	feedback* next;
 }feedBack;
@@ -18,7 +21,7 @@ private:
 	int size;
 public:
 	FeedbackLinkedList();
-	void insertToEnd(int feedbackID, string feedbackContent);
+	void insertToEnd(string, tm*, string, bool, tm*);
 	void removeFromFront(feedback* newNode);
 	void display();
 	feedBack* getTail();

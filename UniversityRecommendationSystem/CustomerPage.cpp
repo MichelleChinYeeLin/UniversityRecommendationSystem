@@ -105,17 +105,22 @@ void customerMenu() {
 
 		}
 		else if (input == 4) {
-
+			writeFeedback();
 		}
 	} while (input != 5 || !valid);
 }
 
-void writeFeedback() {
+void writeFeedback(FeedbackLinkedList* cus) {
 	string feedback;
+	string username;
+	time_t now = time(0);
+	tm* tm = localtime(&now);
 	cout << "Please enter your feedback: ";
-	cin >> feedback;
+	cin.ignore();
+	getline(cin,feedback);
+	cus->insertToEnd(username, tm, feedback);
 }
 
-int main() {
-	return 0;
-}
+//int main() {
+//	return 0;
+//}
