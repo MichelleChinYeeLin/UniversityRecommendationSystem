@@ -1,31 +1,36 @@
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
 
+#include "LinkedList.h"
 #include <string>
 #include <iostream>
 using namespace std;
 
+struct user {
+	string userName;
+	string password;
+	string accType;
+	LinkedList<University> favUniList;
+	user* next;
+};
+
 class hashTable {
 private:
 	static const int tableSize = 10;
-	typedef struct user {
-		string userName;
-		string password;
-		user* next;
-	};
 
 	user* hash_Table[tableSize]; // bucket to store pointers of linked list
 
 public:
 	hashTable();
 	int hash(string username);
-	void addUserAcc(string username, string password);
+	void addUserAcc(string username, string password, string accType);
 	int numberOfItemsInIndex(int index);
 	void printTable();
 	void printItemsInIndex(int index);
-	string searchForUsername(string username);
+	user* searchUser(string username);
 	void removeUserAcc(string username);
 	int updatePwd(string username);
+	//LinkedList<University> getFavUniList(string userName);
 };
 
 hashTable::hashTable() {
@@ -47,13 +52,14 @@ int hashTable::hash(string key) {
 	return index;
 }
 
-void hashTable::addUserAcc(string username, string password) {
+void hashTable::addUserAcc(string username, string password, string accType) {
 	int hashValue = hash(username); //hash the username
 
 	// if it is empty
 	if (hash_Table[hashValue]->userName == "empty") {
 		hash_Table[hashValue]->userName = username;
 		hash_Table[hashValue]->password = password;
+		hash_Table[hashValue]->accType = accType;
 		// handle collision
 	}
 	else {
@@ -61,6 +67,7 @@ void hashTable::addUserAcc(string username, string password) {
 		user* newUser = new user;
 		newUser->userName = username;
 		newUser->password = password;
+		newUser->accType = accType;
 		newUser->next = NULL;
 
 		//tranversal until last item
@@ -119,21 +126,35 @@ void hashTable::printItemsInIndex(int index) {
 	}
 }
 
-string hashTable::searchForUsername(string username) {
+user* hashTable::searchUser(string username) {
 	int hashValue = hash(username);
-	bool found = false;
+	//bool found = false;
 	string userName;
 
 	user* ptr = hash_Table[hashValue]; //pointing to the first item in the bucket
 	while (ptr != NULL) {
 		if (ptr->userName == username) {
-			found = true;
-			userName = ptr->userName;
+			//found = true;
+			//cout << "------------------\n";
+			//cout << "User " << username << " was in the hash table\n";
+			//cout << "------------------\n";
+			return ptr;
+
+			//return true;
 		}
 		ptr = ptr->next;
 	}
 
-	if (found == true) {
+	user* emptyUser = new user;
+	emptyUser->userName = "";
+
+	return emptyUser;
+
+	//cout << "------------------\n";
+	//cout << "User " << username << " was not found in the hash table\n";
+	//cout << "------------------\n";
+
+	/*if (found == true) {
 		cout << "------------------\n";
 		cout << "User " << username << " was in the hash table\n";
 		cout << "------------------\n";
@@ -143,7 +164,7 @@ string hashTable::searchForUsername(string username) {
 		cout << "User " << username << " was not found in the hash table\n";
 		cout << "------------------\n";
 	}
-	return username;
+	return username;*/
 }
 
 void hashTable::removeUserAcc(string username) {
@@ -217,5 +238,19 @@ int hashTable::updatePwd(string username) {
 
 	return index;
 }
+
+//LinkedList<University> hashTable::getFavUniList(string userName) {
+//	int hashValue = hash(userName);
+//
+//	user* ptr = hash_Table[hashValue]; //pointing to the first item in the bucket
+//	while (ptr != NULL) {
+//		if (ptr->userName == userName) {
+//			return ptr->favUniList;
+//		}
+//		ptr = ptr->next;
+//	}
+//
+//	return LinkedList<University>();
+//}
 
 #endif

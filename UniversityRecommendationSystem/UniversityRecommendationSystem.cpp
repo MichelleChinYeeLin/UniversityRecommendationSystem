@@ -1,7 +1,4 @@
-//#include "LinkedList.h"
 #include "FileIO.h"
-#include "Stack.h"
-//#include "University.h"
 #include <iostream>
 #include <iomanip>
 #include <limits>
@@ -10,15 +7,22 @@ using namespace std;
 //Function prototypes
 bool customerLogin();
 void customerMenu();
+bool moheLogin();
+void moheMenu();
 void displayUniversityList(bool, Criteria);
 void addFavouriteUniversity(int, int);
 
+hashTable addDemoData();
+
 LinkedList<University> uniList;
+hashTable userTable;
+user* currentUser;
 
 int main() {
 	
 	FileIO fileIO;
 	uniList = fileIO.readUniversityFile();
+	userTable = addDemoData();
 	
 	int input = 0;
 	bool valid = true;
@@ -55,7 +59,14 @@ int main() {
 		}
 
 		else if (input == 2) {
-			//TODO: MoHE Login
+			valid = moheLogin();
+
+			if (valid) {
+				moheMenu();
+				valid = false;
+				system("cls");
+			}
+
 			system("pause");
 			system("cls");
 		}
@@ -232,45 +243,6 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 
 		system("cls");
 	} while (input == "N" || input == "P" || input == "F");
-
-	/*int min = 1;
-	int max = 100;
-	string input = "";
-	bool endOfList = false;
-
-	do {
-		endOfList = uniList.display(min, max);
-
-		if (endOfList) {
-			cout << "End of University List!" << endl;
-			system("pause");
-		}
-
-		else {
-
-			if (hasFav) {
-				cout << "Continue? Enter 'Y' to continue displaying list or 'F' to favourite a university: ";
-				cin >> input;
-			}
-
-			else {
-				cout << "Continue? Enter 'Y' to continue displaying list: ";
-				cin >> input;
-			}
-
-			if (input == "F") {
-				addFavouriteUniversity(min, max);
-				system("cls");
-			}
-
-			else if (input == "Y") {
-				min += 100;
-				max += 100;
-				system("cls");
-			}
-		}
-
-	} while ((input == "Y" && !endOfList) || input == "F");*/
 }
 
 void addFavouriteUniversity(int min, int max) {
@@ -281,7 +253,7 @@ void addFavouriteUniversity(int min, int max) {
 
 	do {
 		valid = true;
-		uniList.display(min, max);
+		//uniList.display(min, max);
 
 		cout << "Enter the No. of the university to be added to favourites (Enter -1 to cancel): ";
 		cin >> favNum;
@@ -307,15 +279,13 @@ void addFavouriteUniversity(int min, int max) {
 	Node<University>* favNode = uniList.getFromPosition(favNum - 1);
 	University favUni = favNode->data;
 
-	//TODO: add university to user data
+	currentUser->favUniList.insertToEnd(favUni);
 
 	cout << endl << favUni.getName() << " has been added to favourites!" << endl;
 	system("pause");
 }
 
 bool customerLogin() {
-	//temp
-	return true;
 
 	string username = "", password = "";
 	bool valid = true;
@@ -326,18 +296,34 @@ bool customerLogin() {
 	cin.clear();
 	cin.ignore();
 
-	//TODO: Loop through list of users
-	while (false) {
+	user* customer = userTable.searchUser(username);
 
-		//If user found
-		cout << "Password: ";
-		cin >> password;
-		//If password ==, return true
+	//If user is found
+	if (customer->userName != "") {
 
-		system("cls");
+		//If user account is a customer
+		if (customer->accType == "Customer") {
+			cout << "Password: ";
+			cin >> password;
+
+			//If password matches
+			if (customer->password == password) {
+				system("cls");
+				currentUser = customer;
+				return true;
+			}
+
+			else {
+				cout << "Wrong password! Please try again." << endl;
+				system("pause");
+				system("cls");
+
+				return false;
+			}
+		}
 	}
 
-	cout << "Invalid username! Please try again." << endl;
+	cout << "Invalid customer username! Please try again." << endl;
 	system("pause");
 	system("cls");
 
@@ -470,10 +456,118 @@ void customerMenu() {
 
 		}
 		else if (input == 3) {
+			LinkedList<University> favUniList = currentUser->favUniList;
+			favUniList.display(1, favUniList.getSize());
+
+			system("pause");
+			system("cls");
+		}
+		else if (input == 4) {
+
+		}
+	} while (input != 5 || !valid);
+}
+
+bool moheLogin() {
+
+	string username = "", password = "";
+	bool valid = true;
+
+	cout << "Username: ";
+	cin >> username;
+
+	cin.clear();
+	cin.ignore();
+
+	user* customer = userTable.searchUser(username);
+
+	//If user is found
+	if (customer->userName != "") {
+
+		//If user account is a mohe user
+		if (customer->accType == "MoHE") {
+			cout << "Password: ";
+			cin >> password;
+
+			//If password matches
+			if (customer->password == password) {
+				system("cls");
+				currentUser = customer;
+				return true;
+			}
+
+			else {
+				cout << "Wrong password! Please try again." << endl;
+				system("pause");
+				system("cls");
+
+				return false;
+			}
+		}
+	}
+
+	cout << "Invalid MoHE username! Please try again." << endl;
+	system("pause");
+	system("cls");
+
+	return false;
+}
+
+void moheMenu() {
+	int input = 0;
+	bool valid = false;
+
+	//Display menu
+	do {
+		valid = true;
+
+		cout << "1. Display User List" << endl;
+		cout << "2. Sort User List" << endl;
+		cout << "3. View University Feedback" << endl;
+		cout << "4. View Favourite University Summary" << endl;
+		cout << "5. Logout" << endl;
+		cout << "Enter option: ";
+		cin >> input;
+
+		system("cls");
+
+		if (cin.fail() || input < 1 || input > 5) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << endl << "Invalid option! Please try again!" << endl;
+			system("pause");
+			system("cls");
+			valid = false;
+		}
+		else if (input == 1) {
+
+		}
+		else if (input == 2) {
+
+		}
+		else if (input == 3) {
 
 		}
 		else if (input == 4) {
 
 		}
 	} while (input != 5 || !valid);
+}
+
+hashTable addDemoData() {
+	hashTable userTable;
+
+	userTable.addUserAcc("Paul", "Locha", "Customer");
+	userTable.addUserAcc("Kim", "Iced Mocha", "Customer");
+	userTable.addUserAcc("Annie", "Passion tea", "MoHE");
+	userTable.addUserAcc("Sarah", "Chai tea", "Customer");
+	userTable.addUserAcc("Eleven", "Apple cider", "MoHE");
+	userTable.addUserAcc("Emma", "Hot Mocha", "MoHE");
+	userTable.addUserAcc("Bill", "Root bear", "Customer");
+	userTable.addUserAcc("Susan", "Skinny Latte", "Customer");
+	userTable.addUserAcc("Marie", "Water", "Customer");
+	userTable.addUserAcc("Joe", "Green Tea", "Customer");
+	userTable.addUserAcc("Max", "Caramel mocha", "Customer");
+
+	return userTable;
 }
