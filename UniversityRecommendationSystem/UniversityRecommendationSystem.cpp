@@ -456,7 +456,26 @@ void customerMenu() {
 			}
 		}
 		else if (input == 2) {
-
+			string name = "";
+			cout << endl << endl;
+			cout << "========== Search University ==========" << endl << endl;
+			cout << "Please enter the university search for: ";
+			cin.ignore();
+			getline(cin, name);
+			University key;
+			key.setName(name);
+			uniList.insertionSort(NAME, 1);
+			//Node<University>* result = uniList.binarySearch(key);
+			Node<University>* result = uniList.linearSearch(key);
+			if (result == NULL) {
+				cout << "University was not found..." << endl << endl;
+			}
+			else {
+				cout << result->data.getName() << setw(10) <<
+					result->data.getLocationCode() << setw(30) <<
+					result->data.getLocation() << endl;
+				cout << "University was found!" << endl << endl;
+			}
 		}
 		else if (input == 3) {
 			LinkedList<University> favUniList = currentUser->favUniList;
@@ -546,26 +565,7 @@ void moheMenu() {
 
 		}
 		else if (input == 2) {
-			string name = "";
-			cout << endl << endl;
-			cout << "========== Search University ==========" << endl << endl;
-			cout << "Please enter the university search for: ";
-			cin.ignore();
-			getline(cin, name);
-			University key;
-			key.setName(name);
-			uniList.insertionSort(NAME, 1);
-			//Node<University>* result = uniList.binarySearch(key);
-			Node<University>* result = uniList.linearSearch(key);
-			if (result == NULL) {
-				cout << "University was not found..." << endl << endl;
-			}
-			else {
-				cout << result->data.getName() << setw(10) <<
-					result->data.getLocationCode() << setw(30) <<
-					result ->data.getLocation() << endl;
-				cout << "University was found!" << endl << endl;
-			}
+			
 		}
 		else if (input == 3) {
 
