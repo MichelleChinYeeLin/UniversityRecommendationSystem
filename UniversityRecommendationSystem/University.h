@@ -42,10 +42,11 @@ public:
 		int, double, int, double, int, double, int, double);
 	void display();
 	void display(Criteria);
+
 	void displayUniversitySummarized();
 	string getUniversityStringValue(Criteria);
 	double getUniversityNumValue(Criteria);
-
+	void setName(string name);
 	int getRank() { return rank; }
 	string getName() { return name; }
 	string getLocationCode() { return locationCode; }

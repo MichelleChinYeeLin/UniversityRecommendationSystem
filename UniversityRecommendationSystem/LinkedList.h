@@ -3,6 +3,7 @@
 #include "University.h"
 #include <iostream>
 #include <iomanip>
+#include<string>
 
 using namespace std;
 
@@ -27,13 +28,15 @@ class LinkedList {
 
 public:
 	LinkedList() {};
-
 	Node<T>* createNewNode(T);
 	void insertToFront(T);
 	void insertToEnd(T);
 	void deleteFromFront();
 	void deleteFromEnd();
 	Node<T>* getFromPosition(int);
+	Node<T>* binarySearch(T key);
+	Node<T>* linearSearch(T key);
+	//Node<T>* jumpSearch(T key);
 	bool display(int, int);
 	void insertionSort(Criteria, bool);
 	void quickSort(Criteria, bool);
@@ -232,6 +235,95 @@ template<class T>
 int LinkedList<T>::getSize() {
 	return size;
 }
+
+template<class T>
+Node<T>* LinkedList<T>::linearSearch(T key) {
+	// assign cur pointer points to head
+	Node<T>* cur = head;
+
+	//loop through linked list
+	while (cur){
+		// found
+		if (cur->data.getName() == key.getName()) {
+			return cur;
+		}
+		cur = cur->next;
+	}
+	return NULL;
+}
+
+template<class T >
+Node<T>* LinkedList<T>::binarySearch(T key) {
+	// get the size of linked list
+	int size = this->getSize();
+
+	// if the linked list is empty
+	if (size == 0) {
+		return NULL;
+	}
+
+	// set boundaries (low: the first index, high: the last index)
+	int low = 0;
+	int high = size - 1;
+
+	while (low <= high) {
+		// find the middle
+		int mid = (low + high) / 2;
+
+		Node<T>* node = this->getFromPosition(mid);
+		string nodeValue = node->data.getName();
+
+		// found
+		if (nodeValue == key.getName()) {
+			return node;
+		}
+
+		// nodeValue < key
+		else if (nodeValue < key.getName()) {
+			low = mid + 1;
+		}
+
+		// nodeValue > key
+		else {
+			high = mid - 1;
+		}
+	}
+
+	// not found
+	return NULL;
+}
+
+//template<class T>
+//Node<T>* LinkedList<T>::jumpSearch(T key) {
+//	int n = 0;
+//	Node<T>* curr = head;
+//
+//	while (curr != nullptr) {
+//		n++;
+//		curr = curr->next;
+//	}
+//
+//	int jump = sqrt(n);
+//	curr = head;
+//	Node<T>* prev = nullptr;
+//
+//	while (curr != nullptr && curr->data.getName() < key.getName()) {
+//		prev = curr;
+//		for (int i = 0; i < jump && curr != nullptr; i++) {
+//			curr = curr->next;
+//		}
+//	}
+//
+//	while (prev != nullptr && prev->data.getName() < key.getName()) {
+//		prev = prev->next;
+//	}
+//
+//	if (prev != nullptr && prev->data.getName() == key.getName()) {
+//		return prev;
+//	}
+//
+//	return nullptr;
+//}
 
 template<>
 bool LinkedList<University>::display(int min, int max) {
