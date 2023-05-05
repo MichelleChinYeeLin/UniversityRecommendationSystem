@@ -46,7 +46,7 @@ public:
 	void displayUniversitySummarized();
 	string getUniversityStringValue(Criteria);
 	double getUniversityNumValue(Criteria);
-	void setName(string name);
+	void setName(string name) { this->name = name; }
 	int getRank() { return rank; }
 	string getName() { return name; }
 	string getLocationCode() { return locationCode; }
