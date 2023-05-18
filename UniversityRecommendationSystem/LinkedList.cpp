@@ -4,6 +4,8 @@
 
 using namespace std;
 
+template class LinkedList<University>;
+
 template<>
 bool LinkedList<University>::display(int min, int max) {
 
