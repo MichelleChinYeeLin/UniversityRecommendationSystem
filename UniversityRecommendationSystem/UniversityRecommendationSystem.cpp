@@ -564,8 +564,6 @@ void customerMenu() {
 					cout << "University was found!" << endl << endl;
 				}
 			}
-
-		
 		}
 		else if (input == 3) {
 
