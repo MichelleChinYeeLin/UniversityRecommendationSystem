@@ -57,6 +57,11 @@ int main() {
 				valid = false;
 				system("cls");
 			}
+
+			else {
+				system("pause");
+				system("cls");
+			}
 		}
 
 		else if (input == 2) {
@@ -68,8 +73,10 @@ int main() {
 				system("cls");
 			}
 
-			system("pause");
-			system("cls");
+			else {
+				system("pause");
+				system("cls");
+			}
 		}
 
 		else if (input == 3) {
@@ -283,6 +290,7 @@ void addFavouriteUniversity(int min, int max) {
 	currentUser->favUniList.insertToEnd(favUni);
 
 	cout << endl << favUni.getName() << " has been added to favourites!" << endl;
+	favNode->data.addTotalFavNum();
 	system("pause");
 }
 
@@ -305,7 +313,8 @@ bool customerLogin() {
 		//If user account is a customer
 		if (customer->accType == "Customer") {
 			cout << "Password: ";
-			cin >> password;
+			getline(cin, password);
+			cin.clear();
 
 			//If password matches
 			if (customer->password == password) {
@@ -316,18 +325,12 @@ bool customerLogin() {
 
 			else {
 				cout << "Wrong password! Please try again." << endl;
-				system("pause");
-				system("cls");
-
 				return false;
 			}
 		}
 	}
 
 	cout << "Invalid customer username! Please try again." << endl;
-	system("pause");
-	system("cls");
-
 	return false;
 }
 
@@ -501,37 +504,34 @@ bool moheLogin() {
 	cin.clear();
 	cin.ignore();
 
-	user* customer = userTable.searchUser(username);
+	user* mohe = userTable.searchUser(username);
 
 	//If user is found
-	if (customer->userName != "") {
+	if (mohe->userName != "") {
 
 		//If user account is a mohe user
-		if (customer->accType == "MoHE") {
+		if (mohe->accType == "MoHE") {
 			cout << "Password: ";
-			cin >> password;
+			getline(cin, password);
+			cin.clear();
+			//cin >> password;
+
 
 			//If password matches
-			if (customer->password == password) {
+			if (mohe->password == password) {
 				system("cls");
-				currentUser = customer;
+				currentUser = mohe;
 				return true;
 			}
 
 			else {
 				cout << "Wrong password! Please try again." << endl;
-				system("pause");
-				system("cls");
-
 				return false;
 			}
 		}
 	}
 
 	cout << "Invalid MoHE username! Please try again." << endl;
-	system("pause");
-	system("cls");
-
 	return false;
 }
 
@@ -571,7 +571,24 @@ void moheMenu() {
 
 		}
 		else if (input == 4) {
+			uniList.insertionSort(TOTAL_FAV_NUM, false);
+			cout << "========== Top 10 Favourite University ==========" << endl;
+			for (int i = 0; i < 10; i++) {
+				University university = uniList.getFromPosition(i)->data;
 
+				if (i == 0 && university.getTotalFavNum() == 0) {
+					cout << "No favourite university available! Please try again." << endl;
+					break;
+				}
+
+				else if (university.getTotalFavNum() == 0) {
+					break;
+				}
+
+				cout << i + 1 << " ";
+				university.display(TOTAL_FAV_NUM);
+				cout << endl;
+			}
 		}
 	} while (input != 5 || !valid);
 }

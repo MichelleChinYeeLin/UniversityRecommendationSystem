@@ -27,7 +27,8 @@ enum Criteria {
 	IRNRANK,
 	GERSCORE,
 	GERRANK,
-	SCORE_SCALED
+	SCORE_SCALED,
+	TOTAL_FAV_NUM
 };
 
 class University {
@@ -36,6 +37,7 @@ private:
 	string name, locationCode, location;
 	double arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled;
 	int arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank;
+	int totalFavNum;
 public:
 	University();
 	University(int, string, string, string, double, int, double, int, double, int, double, int, double,
@@ -68,6 +70,8 @@ public:
 	double getGerScore() { return gerScore; }
 	int getGerRank() { return gerRank; }
 	double getScoreScaled() { return scoreScaled; }
+	int getTotalFavNum() {return totalFavNum;}
+	void addTotalFavNum() { totalFavNum++; }
 };
 
 University::University() {
@@ -92,6 +96,7 @@ University::University() {
 	this->gerScore = 0;
 	this->gerRank = 0;
 	this->scoreScaled = 0;
+	this->totalFavNum = 0;
 }
 
 University::University(int rank, string name, string locationCode, string location, double arScore, int arRank,
@@ -119,6 +124,7 @@ University::University(int rank, string name, string locationCode, string locati
 	this->gerScore = gerScore;
 	this->gerRank = gerRank;
 	this->scoreScaled = scoreScaled;
+	this->totalFavNum = 0;
 }
 
 void University::display() {
@@ -129,6 +135,10 @@ void University::display() {
 void University::display(Criteria criteria) {
 	if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
 		display();
+	}
+
+	else if (criteria == TOTAL_FAV_NUM) {
+		cout << left << setw(5) << this->rank << setw(90) << this->name << setw(5) << this->totalFavNum << endl;
 	}
 
 	else {
@@ -178,7 +188,7 @@ void University::display(Criteria criteria) {
 			break;
 		case RANK:
 		case SCORE_SCALED:
-			rank = rank;
+			rank = this->rank;
 			score = scoreScaled;
 		}
 

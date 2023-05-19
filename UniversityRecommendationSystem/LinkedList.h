@@ -418,6 +418,26 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 			}
 		}
 
+		else if (criteria == TOTAL_FAV_NUM) {
+			int numValue1 = currentUniversity.getTotalFavNum();
+			int numValue2 = tempUniversity.getTotalFavNum();
+
+			while (index > 0 && numValue2 < numValue1) {
+				swapNodePosition(current, temp);
+
+				index -= 1;
+
+				current = getFromPosition(index);
+				temp = getFromPosition(index - 1);
+
+				University university1 = current->data;
+				University university2 = temp->data;
+
+				numValue1 = university1.getTotalFavNum();
+				numValue2 = university2.getTotalFavNum();
+			}
+		}
+
 		else {
 			double numValue1 = currentUniversity.getUniversityNumValue(criteria);
 			double numValue2 = tempUniversity.getUniversityNumValue(criteria);
