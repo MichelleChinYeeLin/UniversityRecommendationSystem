@@ -145,7 +145,6 @@
       </PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="FeedbackLinkedList.cpp" />
-    <ClCompile Include="MoHEPage.cpp" />
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="LinkedList.cpp" />
@@ -158,7 +157,6 @@
     <ClInclude Include="HashTable.hpp" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="MoHEPage.hpp" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="University.h" />
   </ItemGroup>
