@@ -34,7 +34,8 @@ void readFeedback(FeedbackLinkedList*admin) {
 
 void replyFeedback() {
 	system("cls");
-	cout << "===== Read Feedback =====" << endl;
+	cout << "===== Reply Feedback =====" << endl;
+
 }
 
 void MoHEMenu(hashTable* cus, FeedbackLinkedList*cus1) {

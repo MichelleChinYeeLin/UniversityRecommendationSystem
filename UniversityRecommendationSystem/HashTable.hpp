@@ -26,6 +26,7 @@ public:
 	string searchForUsername(string username);
 	void removeUserAcc(string username);
 	int updatePwd(string username);
+	void removeInactiveAccount();
 };
 
 #endif

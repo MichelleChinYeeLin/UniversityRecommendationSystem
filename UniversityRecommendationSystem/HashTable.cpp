@@ -152,6 +152,10 @@ string hashTable::searchForUsername(string username) {
 	return password;
 }
 
+void hashTable::removeInactiveAccount() {
+
+}
+
 void hashTable::removeUserAcc(string username) {
 	int index = hash(username);
 	user* delPtr;
