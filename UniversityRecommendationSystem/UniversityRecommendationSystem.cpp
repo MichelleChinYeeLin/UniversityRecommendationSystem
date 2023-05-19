@@ -345,15 +345,16 @@ void customerMenu() {
 		cout << "========== Customer Menu ==========" << endl;
 		cout << "1. Sort University Information" << endl;
 		cout << "2. Search University" << endl;
-		cout << "3. View Favorite Universities" << endl;
-		cout << "4. View Feedback" << endl;
-		cout << "5. Logout" << endl;
+		cout << "3. View Favorite Universities" << endl; 
+		cout << "4. Write Feedback" << endl;
+		cout << "5. View Feedback" << endl;
+		cout << "6. Logout" << endl;
 		cout << "Enter option: ";
 		cin >> input;
 
 		system("cls");
 
-		if (cin.fail() || input < 1 || input > 5) {
+		if (cin.fail() || input < 1 || input > 6) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << endl << "Invalid option! Please try again!" << endl;
@@ -591,7 +592,10 @@ void customerMenu() {
 		else if (input == 4) {
 
 		}
-	} while (input != 5 || !valid);
+		else if (input == 5) {
+
+		}
+	} while (input != 6 || !valid);
 }
 
 bool moheLogin() {
