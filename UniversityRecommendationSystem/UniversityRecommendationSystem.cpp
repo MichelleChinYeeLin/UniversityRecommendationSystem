@@ -459,25 +459,126 @@ void customerMenu() {
 			}
 		}
 		else if (input == 2) {
-			string name = "";
-			cout << endl << endl;
-			cout << "========== Search University ==========" << endl << endl;
-			cout << "Please enter the university search for: ";
-			cin.ignore();
-			getline(cin, name);
-			University key;
-			key.setName(name);
-			uniList.insertionSort(NAME, 1);
-			//Node<University>* result = uniList.binarySearch(key);
-			Node<University>* result = uniList.linearSearch(key);
-			if (result == NULL) {
-				cout << "University was not found..." << endl << endl;
+			//string name = "";
+			//cout << endl << endl;
+			//cout << "========== Search University ==========" << endl << endl;
+			//cout << "Please enter the university search for: ";
+			//cin.ignore();
+			//getline(cin, name);
+			//University key;
+			//key.setName(name);
+			//uniList.insertionSort(NAME, 1);
+			////Node<University>* result = uniList.binarySearch(key);
+			//Node<University>* result = uniList.linearSearch(key);
+			//if (result == NULL) {
+			//	cout << "University was not found..." << endl << endl;
+			//}
+			//else {
+			//	cout << result->data.getName() << setw(10) <<
+			//		result->data.getLocationCode() << setw(30) <<
+			//		result->data.getLocation() << endl;
+			//	cout << "University was found!" << endl << endl;
+			//}
+
+			int categoryInput = 0;
+			cout << "========== Sort University Information ==========" << endl << endl;
+			cout << "=============== Category ===============" << endl;
+			cout << "1.  Rank" << endl;
+			cout << "2.  Institution Name" << endl;
+			cout << "3.  Location Code" << endl;
+			cout << "4.  Location" << endl;
+			cout << "5.  Academic Reputation (AR)" << endl;
+			cout << "6.  Employer Reputation (ER)" << endl;
+			cout << "7.  Faculty/Student Ratio (FSR)" << endl;
+			cout << "8.  Citations Per Faculty (CPF)" << endl;
+			cout << "9.  International Faculty Ratio (IFR)" << endl;
+			cout << "10. International Student Ratio (ISR)" << endl;
+			cout << "11. International Research Network (IRN)" << endl;
+			cout << "12. Employment Outcome (GER)" << endl;
+			cout << "Select category to search: ";
+			cin >> categoryInput;
+
+			if (cin.fail() || categoryInput < 1 || categoryInput > 12) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << endl << "Invalid option! Please try again!" << endl;
+				system("pause");
+				system("cls");
+				valid = false;
 			}
+
 			else {
-				cout << result->data.getName() << setw(10) <<
-					result->data.getLocationCode() << setw(30) <<
-					result->data.getLocation() << endl;
-				cout << "University was found!" << endl << endl;
+				Criteria criteria;
+
+				switch (categoryInput) {
+				case 1:
+					criteria = RANK;
+					break;
+				case 2:
+					criteria = NAME;
+					break;
+				case 3:
+					criteria = LOCATION_CODE;
+					break;
+				case 4:
+					criteria = LOCATION;
+					break;
+				case 5:
+					criteria = ARSCORE;
+					break;
+				case 6:
+					criteria = ERSCORE;
+					break;
+				case 7:
+					criteria = FSRSCORE;
+					break;
+				case 8:
+					criteria = CPFSCORE;
+					break;
+				case 9:
+					criteria = IFRSCORE;
+					break;
+				case 10:
+					criteria = ISRSCORE;
+					break;
+				case 11:
+					criteria = IRNSCORE;
+					break;
+				case 12:
+					criteria = GERSCORE;
+					break;
+				}
+				cout << endl << endl;
+				cout << "========== Search University ==========" << endl << endl;
+				uniList.quickSort(criteria, 1);
+				Node<University>* result;
+				LinkedList<University> testResult;
+				if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
+					string key = "";
+					cout << "Please enter the university search for: ";
+					cin.ignore();
+					getline(cin, key);
+					//result = uniList.binarySearch(criteria, key);
+				}
+				else {
+					double key1 = 0.0;
+					cout << "Please enter the university search for: ";
+					cin >> key1;
+					testResult = uniList.binarySearch(criteria, key1);
+
+				}
+
+				if (testResult.getSize() == 0) {
+					cout << "University was not found..." << endl << endl;
+				}
+				else {
+					testResult.display(0, 100);
+					/*Node<University> currentUniversity = testResult->head;
+					cout << testResult.getName() << setw(10) <<
+						testResult-.getLocationCode() << setw(30) <<
+						testResult->data.getLocation() << endl;
+					cout << "University was found!" << endl << endl;*/
+				}
 			}
 		}
 		else if (input == 3) {
