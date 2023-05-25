@@ -8,27 +8,25 @@
 using namespace std;
 
 //Function prototypes
-bool customerLogin();
+bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1);
 void customerMenu(FeedbackLinkedList* cus, string username);
-bool moheLogin();
-void moheMenu();
-void writeFeedback(string username, FeedbackLinkedList* cus);
+bool moheLogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1);
+void moheMenu(hashTable* cus, FeedbackLinkedList* cus1);
+//void writeFeedback(string username, FeedbackLinkedList* cus);
 void displayUniversityList(bool, Criteria);
 void addFavouriteUniversity(int, int);
-void registerAsUser(hashTable* cus);
+//void registerAsUser(hashTable* cus);
 
-hashTable addDemoData();
+//hashTable addDemoData();
 
 LinkedList<University> uniList;
-LinkedList<University> uniList1;
 hashTable userTable;
-FeedbackLinkedList* cus;
 user* currentUser;
 
-int main() {
+void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 	FileIO fileIO;
 	uniList = fileIO.readUniversityFile();
-	userTable = addDemoData();
+	//userTable = addDemoData();
 	
 	int input = 0;
 	bool valid = true;
@@ -55,32 +53,15 @@ int main() {
 		}
 
 		else if (input == 1) {
-			valid = customerLogin();
-
-			if (valid) {
-				customerMenu();
-				valid = false;
-				system("cls");
-			}
-
-			else {
-				system("pause");
-				system("cls");
-			}
+			customerLogin(cus, cus1);
 		}
 
 		else if (input == 2) {
-			valid = moheLogin();
+			valid = moheLogin(admin, cus, cus1);
 
 			if (valid) {
-				moheMenu();
+				moheMenu(cus, cus1);
 				valid = false;
-				system("cls");
-			}
-
-			else {
-				system("pause");
-				system("cls");
 			}
 		}
 
@@ -92,7 +73,6 @@ int main() {
 
 	} while (input != 4 || !valid);
 	
-	return 0;
 }
 
 void displayUniversityList(bool hasFav, Criteria criteria) {
@@ -299,8 +279,7 @@ void addFavouriteUniversity(int min, int max) {
 	system("pause");
 }
 
-bool customerLogin() {
-
+bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1) {
 	string username = "", password = "";
 	bool valid = true;
 
@@ -339,49 +318,29 @@ bool customerLogin() {
 	return false;
 }
 
-bool moheLogin() {
-
-	string username = "", password = "";
+bool moheLogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
+	string username, password;
 	bool valid = true;
 
-	cout << "Username: ";
+	cout << "===== MoHE Login Page =====" << endl;
+	cout << "Please enter your username: ";
 	cin >> username;
+	string realPassword = admin->searchUser(username)->password;
 
-	cin.clear();
-	cin.ignore();
-
-	user* mohe = userTable.searchUser(username);
-
-	//If user is found
-	if (mohe->userName != "") {
-
-		//If user account is a mohe user
-		if (mohe->accType == "MoHE") {
-			cout << "Password: ";
-			getline(cin, password);
-			cin.clear();
-			//cin >> password;
-
-
-			//If password matches
-			if (mohe->password == password) {
-				system("cls");
-				currentUser = mohe;
-				return true;
-			}
-
-			else {
-				cout << "Wrong password! Please try again." << endl;
-				return false;
-			}
+	while (true) {
+		cout << "Please enter your password: ";
+		cin >> password;
+		if (password == realPassword) {
+			moheMenu(cus, cus1);
+		}
+		else {
+			cout << "Wrong password! Please try again!\n";
 		}
 	}
-
-	cout << "Invalid MoHE username! Please try again." << endl;
 	return false;
 }
 
-void moheMenu() {
+void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 	int input = 0;
 	bool valid = false;
 
@@ -439,31 +398,6 @@ void moheMenu() {
 	} while (input != 5 || !valid);
 }
 
-void registerAsUser(hashTable* cus) {
-	string name, pw;
-	char input;
-	cout << "===== Customer Register Page =====" << endl << endl;
-	cout << "Please enter your name: ";
-	cin.ignore();
-	getline(cin, name);
-	cout << "Please enter your password: ";
-	cin >> pw;
-	cus->addUserAcc(name, pw);
-	while (true) {
-		cout << "\nCongragulations! You successfully registered as customer! Enter Q to quit " << endl;
-		cin >> input;
-		cout << endl;
-		if (input == 'Q') {
-			cout << "==================================" << endl;
-			system("cls");
-			return;
-		}
-		else {
-			cout << "Invalid input! Please enter again!" << endl;
-		}
-	}
-}
-
 void customerMenu(FeedbackLinkedList* cus, string username) {
 	int input = 0;
 	bool valid = false;
@@ -497,7 +431,7 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 
 		}
 		else if (input == 4) {
-			writeFeedback(username, cus);
+			//writeFeedback(username, cus);
 		}
 		else if (input == 5) {
 			valid = false;
@@ -507,34 +441,29 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 	} while (input != 5 || !valid);
 }
 
-void writeFeedback(string username, FeedbackLinkedList* cus) {
-	string feedback;
-	time_t now = time(0);
-	time_t now2 = time(NULL);
-	tm* currentTime = localtime(&now);
-	tm* replyTime = localtime(&now2);
+//hashTable addDemoData() {
+//	hashTable userTable;
+//
+//	userTable.addUserAcc("Paul", "Locha", "Customer");
+//	userTable.addUserAcc("Kim", "Iced Mocha", "Customer");
+//	userTable.addUserAcc("Annie", "Passion tea", "MoHE");
+//	userTable.addUserAcc("Sarah", "Chai tea", "Customer");
+//	userTable.addUserAcc("Eleven", "Apple cider", "MoHE");
+//	userTable.addUserAcc("Emma", "Hot Mocha", "MoHE");
+//	userTable.addUserAcc("Bill", "Root bear", "Customer");
+//	userTable.addUserAcc("Susan", "Skinny Latte", "Customer");
+//	userTable.addUserAcc("Marie", "Water", "Customer");
+//	userTable.addUserAcc("Joe", "Green Tea", "Customer");
+//	userTable.addUserAcc("Max", "Caramel mocha", "Customer");
+//
+//	return userTable;
+//}
 
-	cout << "===== Write Feedback =====" << endl << endl;
-	cout << "Please enter your feedback: ";
-	cin.ignore();
-	getline(cin, feedback);
-	cus->insertToEnd(username, currentTime, feedback, false, replyTime);
-}
-
-hashTable addDemoData() {
-	hashTable userTable;
-
-	userTable.addUserAcc("Paul", "Locha", "Customer");
-	userTable.addUserAcc("Kim", "Iced Mocha", "Customer");
-	userTable.addUserAcc("Annie", "Passion tea", "MoHE");
-	userTable.addUserAcc("Sarah", "Chai tea", "Customer");
-	userTable.addUserAcc("Eleven", "Apple cider", "MoHE");
-	userTable.addUserAcc("Emma", "Hot Mocha", "MoHE");
-	userTable.addUserAcc("Bill", "Root bear", "Customer");
-	userTable.addUserAcc("Susan", "Skinny Latte", "Customer");
-	userTable.addUserAcc("Marie", "Water", "Customer");
-	userTable.addUserAcc("Joe", "Green Tea", "Customer");
-	userTable.addUserAcc("Max", "Caramel mocha", "Customer");
-
-	return userTable;
+int main() {
+	hashTable* cus = new hashTable();
+	hashTable* admin = new hashTable();
+	FeedbackLinkedList* cus1 = new FeedbackLinkedList();
+	admin->addUserAcc("hello", "12345", "admin"); //admin account
+	homePage(admin, cus, cus1);
+	return 0;
 }
