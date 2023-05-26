@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//Structure for a node in the linked list
 template<class T>
 struct Node {
 	T data;
@@ -47,6 +48,7 @@ public:
 	int getSize();
 };
 
+//Create a new node for the linked list
 template<class T>
 Node<T>* LinkedList<T>::createNewNode(T data)
 {
@@ -55,10 +57,12 @@ Node<T>* LinkedList<T>::createNewNode(T data)
 	return newNode;
 }
 
+//Insert a new node to the front of the linked list
 template<class T>
 void LinkedList<T>::insertToFront(T data) {
 	Node<T>* newNode = createNewNode(data);
 
+	//If the linked list is empty
 	if (head == NULL) {
 		head = newNode;
 		tail = newNode;
@@ -68,13 +72,16 @@ void LinkedList<T>::insertToFront(T data) {
 		head = newNode;
 	}
 
+	//Increment linked list size
 	size++;
 }
 
+//Insert a new node to the end of the linked list
 template<class T>
 void LinkedList<T>::insertToEnd(T data) {
 	Node<T>* newNode = createNewNode(data);
 
+	//If the linked list is empty
 	if (head == NULL) {
 		head = newNode;
 		tail = newNode;
@@ -85,9 +92,11 @@ void LinkedList<T>::insertToEnd(T data) {
 		tail = newNode;
 	}
 
+	//Increment linked list size
 	size++;
 }
 
+//Delete a node from the front of the linked list
 template<class T>
 void LinkedList<T>::deleteFromFront() {
 	if (head == NULL) {
@@ -101,6 +110,7 @@ void LinkedList<T>::deleteFromFront() {
 	size--;
 }
 
+//Delete a node from the end of the linked list
 template<class T>
 void LinkedList<T>::deleteFromEnd() {
 	if (head == NULL) {
@@ -114,13 +124,17 @@ void LinkedList<T>::deleteFromEnd() {
 	size--;
 }
 
+//Get the node from a specific position in the linked list
+//Node position starts from 0
 template<class T>
 Node<T>* LinkedList<T>::getFromPosition(int position) {
 
+	//If position is the first node in the linked list
 	if (position == 0) {
 		return head;
 	}
 
+	//If position is the last node in the linked list
 	else if (position == size - 1) {
 		return tail;
 	}
@@ -128,12 +142,8 @@ Node<T>* LinkedList<T>::getFromPosition(int position) {
 	int count = 0;
 	Node<T>* current = head;
 
+	//Traverse the linked list until the count matches the position
 	while (count < position) {
-
-		if (position == 147) {
-			int num = 0;
-		}
-
 		current = current->next;
 		count++;
 	}
@@ -141,30 +151,38 @@ Node<T>* LinkedList<T>::getFromPosition(int position) {
 	return current;
 }
 
+//Swap the position of node1 with node2
 template<class T>
 void LinkedList<T>::swapNodePosition(Node<T>* node1, Node<T>* node2) {
 
+	//If both nodes have the same data
 	if (node1 == node2) {
 		return;
 	}
 
+	//If node1 is the head, change the head to node2
 	if (node1 == head) {
 		head = node2;
 
 	}
 
+	//If node2 is the head, change the head to node1
 	else if (node2 == head) {
 		head = node1;
 	}
 
+	//If node1 is the tail, change the tail to node2
 	if (node1 == tail) {
 		tail = node2;
 	}
 
+	//If node2 is the tail, change the tail to node1
 	else if (node2 == tail) {
 		tail = node1;
 	}
 
+	//Assume 'left' is the previous node, and 'right' is the next node
+	//If node1 is to the left of node2
 	if (node1->next == node2) {
 		Node<T>* leftmost = node1->prev;
 		Node<T>* rightmost = node2->next;
@@ -183,6 +201,7 @@ void LinkedList<T>::swapNodePosition(Node<T>* node1, Node<T>* node2) {
 		}
 	}
 
+	//If node2 is to the left of node1
 	else if (node2->next == node1) {
 		Node<T>* leftmost = node2->prev;
 		Node<T>* rightmost = node1->next;
@@ -201,6 +220,7 @@ void LinkedList<T>::swapNodePosition(Node<T>* node1, Node<T>* node2) {
 		}
 	}
 
+	//If node1 and node2 are separated
 	else {
 
 		Node<T>* node1Left = node1->prev;
@@ -231,11 +251,13 @@ void LinkedList<T>::swapNodePosition(Node<T>* node1, Node<T>* node2) {
 	}
 }
 
+//Get the size of the linked list
 template<class T>
 int LinkedList<T>::getSize() {
 	return size;
 }
 
+//Linear search to find a value
 template<class T>
 Node<T>* LinkedList<T>::linearSearch(T key) {
 	// assign cur pointer points to head
@@ -361,6 +383,7 @@ Node<T>* LinkedList<T>::linearSearch(T key) {
 //	return NULL;
 //}
 
+//Binary search to find a value
 template<>
 LinkedList<University> LinkedList<University>::binarySearch(Criteria criteria, const double& key) {
 	LinkedList<University> matchesList;  // Linked list to store matches
@@ -519,6 +542,7 @@ LinkedList<University> LinkedList<University>::binarySearch(Criteria criteria, c
 //	return nullptr;
 //}
 
+//Display univeristy values in the linked list
 template<>
 bool LinkedList<University>::display(int min, int max) {
 
@@ -530,7 +554,7 @@ bool LinkedList<University>::display(int min, int max) {
 	Node<University>* current = head;
 	int count = 1;
 
-	//Header
+	//Display header
 	cout << string(135, '=') << endl;
 	cout << left << setw(5) << "No." << setw(5) << "Rank" << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
 	cout << string(135, '=') << endl;
@@ -548,7 +572,7 @@ bool LinkedList<University>::display(int min, int max) {
 		else {
 			cout << left << setw(5) << count;
 			University university = current->data;
-			university.displayUniversitySummarized();
+			university.display();
 			count++;
 		}
 
@@ -558,31 +582,41 @@ bool LinkedList<University>::display(int min, int max) {
 	return false;
 }
 
+//Insertion sort to sort by criteria in ascending or descending order
 template<>
 void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 
 	Node<University>* current;
 	Node<University>* temp;
 
-	for (int i = 1; i < size - 1; i++) {
+	for (int i = 1; i < size; i++) {
 		int index = i;
 
+		//Get current node
 		current = getFromPosition(index);
+
+		//Get previous node
 		temp = getFromPosition(index - 1);
 
+		//Get data from nodes
 		University currentUniversity = current->data;
 		University tempUniversity = temp->data;
 
+		//If criteria is name, location code, or location
 		if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
+			//Get the string value of the criteria of the university
 			string stringValue1 = toUpperCase(currentUniversity.getUniversityStringValue(criteria));
 			string stringValue2 = toUpperCase(tempUniversity.getUniversityStringValue(criteria));
 
+			//Sort by ascending order
 			if (isAscOrder) {
+				//
 				while (index > 0 && stringValue2 > stringValue1) {
 					swapNodePosition(current, temp);
 
 					index -= 1;
 
+					//Get university values
 					current = getFromPosition(index);
 					temp = getFromPosition(index - 1);
 
@@ -594,8 +628,9 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 				}
 			}
 
+			//Sort by descending order
 			else {
-				while (index > 0 && stringValue2 < stringValue1) {
+				while (index > 0 && stringValue1 > stringValue2) {
 					swapNodePosition(current, temp);
 
 					index -= 1;
@@ -633,11 +668,13 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 		}
 
 		else {
+
 			double numValue1 = currentUniversity.getUniversityNumValue(criteria);
 			double numValue2 = tempUniversity.getUniversityNumValue(criteria);
 
 			if (isAscOrder) {
 				while (index > 0 && numValue2 > numValue1) {
+
 					swapNodePosition(current, temp);
 
 					index -= 1;
@@ -654,7 +691,8 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 			}
 
 			else {
-				while (index > 0 && numValue2 < numValue1) {
+				while (index > 0 && numValue1 > numValue2) {
+
 					swapNodePosition(current, temp);
 
 					index -= 1;

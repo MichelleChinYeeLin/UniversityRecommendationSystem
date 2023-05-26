@@ -30,7 +30,6 @@ public:
 	user* searchUser(string username);
 	void removeUserAcc(string username);
 	int updatePwd(string username);
-	//LinkedList<University> getFavUniList(string userName);
 };
 
 hashTable::hashTable() {

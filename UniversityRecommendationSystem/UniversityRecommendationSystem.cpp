@@ -3,7 +3,9 @@
 #include<string>
 #include <iomanip>
 #include <limits>
+#include <chrono>
 using namespace std;
+using namespace std::chrono;
 
 //Function prototypes
 bool customerLogin();
@@ -110,7 +112,7 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 		//Display header
 		cout << string(135, '=') << endl;
 		if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
-			cout << left << setw(5) << "No." << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
+			cout << left << setw(5) << "No." << setw(10) << "Rank" << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
 		}
 
 		else {
@@ -406,28 +408,28 @@ void customerMenu() {
 					criteria = LOCATION;
 					break;
 				case 5:
-					criteria = ARRANK;
+					criteria = ARSCORE;
 					break;
 				case 6:
-					criteria = ERRANK;
+					criteria = ERSCORE;
 					break;
 				case 7:
-					criteria = FSRRANK;
+					criteria = FSRSCORE;
 					break;
 				case 8:
-					criteria = CPFRANK;
+					criteria = CPFSCORE;
 					break;
 				case 9:
-					criteria = IFRRANK;
+					criteria = IFRSCORE;
 					break;
 				case 10:
-					criteria = ISRRANK;
+					criteria = ISRSCORE;
 					break;
 				case 11:
-					criteria = IRNRANK;
+					criteria = IRNSCORE;
 					break;
 				case 12:
-					criteria = GERRANK;
+					criteria = GERSCORE;
 					break;
 				}
 
@@ -452,8 +454,15 @@ void customerMenu() {
 				else {
 					system("cls");
 					bool isAscOrder = orderOption == 1 ? true : false;
+					auto start = high_resolution_clock::now();
 					//uniList.insertionSort(criteria, isAscOrder);
 					uniList.quickSort(criteria, isAscOrder);
+					auto stop = high_resolution_clock::now();
+					auto duration = duration_cast<microseconds>(stop - start);
+					cout << "Time taken by quick sort algorithm: ";
+					cout << duration.count() << " microseconds." << endl;
+					system("pause");
+					system("cls");
 					displayUniversityList(true, criteria);
 				}
 			}
@@ -481,7 +490,7 @@ void customerMenu() {
 			//}
 
 			int categoryInput = 0;
-			cout << "========== Sort University Information ==========" << endl << endl;
+			cout << "========== Search University Information ==========" << endl << endl;
 			cout << "=============== Category ===============" << endl;
 			cout << "1.  Rank" << endl;
 			cout << "2.  Institution Name" << endl;
@@ -548,6 +557,7 @@ void customerMenu() {
 					criteria = GERSCORE;
 					break;
 				}
+				
 				cout << endl << endl;
 				cout << "========== Search University ==========" << endl << endl;
 				uniList.quickSort(criteria, 1);

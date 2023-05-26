@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//Enumeration for the ranking criteria for universities
 enum Criteria {
 	RANK,
 	NAME,
@@ -33,19 +34,25 @@ enum Criteria {
 
 class University {
 private:
+	//Initialization of variables for all the criteria in a university
 	int rank;
 	string name, locationCode, location;
 	double arScore, erScore, fsrScore, cpfScore, ifrScore, isrScore, irnScore, gerScore, scoreScaled;
 	int arRank, erRank, fsrRank, cpfRank, ifrRank, isrRank, irnRank, gerRank;
+
+	//Total number of customers that favourite the university
 	int totalFavNum;
 public:
 	University();
 	University(int, string, string, string, double, int, double, int, double, int, double, int, double,
 		int, double, int, double, int, double, int, double);
+
+	//Functions to display university information
 	void display();
 	void display(Criteria);
-
 	void displayUniversitySummarized();
+
+	//Getters for the university criteria values
 	string getUniversityStringValue(Criteria);
 	double getUniversityNumValue(Criteria);
 	void setName(string name) { this->name = name; }
@@ -71,9 +78,12 @@ public:
 	int getGerRank() { return gerRank; }
 	double getScoreScaled() { return scoreScaled; }
 	int getTotalFavNum() {return totalFavNum;}
+
+	//Function to increment the total number of favourites for the university
 	void addTotalFavNum() { totalFavNum++; }
 };
 
+//Default constructor
 University::University() {
 	this->rank = 0;
 	this->name = "";
@@ -99,6 +109,7 @@ University::University() {
 	this->totalFavNum = 0;
 }
 
+//Constructor to store values for all university criteria
 University::University(int rank, string name, string locationCode, string location, double arScore, int arRank,
 	double erScore, int erRank, double fsrScore, int fsrRank, double cpfScore, int cpfRank, double ifrScore,
 	int ifrRank, double isrScore, int isrRank, double irnScore, int irnRank, double gerScore, int gerRank, double scoreScaled)
@@ -127,24 +138,30 @@ University::University(int rank, string name, string locationCode, string locati
 	this->totalFavNum = 0;
 }
 
+//Display default values of a university (Rank, name, location code & location)
 void University::display() {
-	cout << left << setw(5) << this->rank << setw(90) << this->name << setw(10) << this->locationCode
+	cout << left << setw(10) << this->rank << setw(90) << this->name << setw(10) << this->locationCode
 		<< setw(30) << this->location << endl;
 }
 
+//Display specific values of a university
 void University::display(Criteria criteria) {
+
+	//If criteria is name, location code or location
 	if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
 		display();
 	}
 
+	//If criteria is the total favourite number
 	else if (criteria == TOTAL_FAV_NUM) {
-		cout << left << setw(5) << this->rank << setw(90) << this->name << setw(5) << this->totalFavNum << endl;
+		cout << left << setw(10) << this->rank << setw(90) << this->name << setw(5) << this->totalFavNum << endl;
 	}
 
 	else {
 		int rank = 0;
 		double score = 0;
 
+		//Get the specific rank and score based on the criteria
 		switch (criteria) {
 		case ARRANK:
 		case ARSCORE:
@@ -192,15 +209,12 @@ void University::display(Criteria criteria) {
 			score = scoreScaled;
 		}
 
-		cout << left << setw(5) << rank << setw(90) << this->name << setw(5) << score << endl;
+		//Display the university rank based on the criteria, name and score
+		cout << left << setw(10) << rank << setw(90) << this->name << setw(5) << score << endl;
 	}
 }
 
-void University::displayUniversitySummarized() {
-	cout << left << setw(5) << this->rank << setw(90) << this->name << setw(10) << this->locationCode
-		<< setw(30) << this->location << endl;
-}
-
+//Get the string value of the criteria
 string University::getUniversityStringValue(Criteria criteria) {
 
 	switch (criteria) {
@@ -217,6 +231,7 @@ string University::getUniversityStringValue(Criteria criteria) {
 	return "";
 }
 
+//Get the number value of the criteria
 double University::getUniversityNumValue(Criteria criteria) {
 
 	switch (criteria) {
