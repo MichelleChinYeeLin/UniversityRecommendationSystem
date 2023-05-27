@@ -15,8 +15,12 @@ public:
 	string checkNumberValue(ifstream&, string);
 };
 
+//Read the CSV file with the university data
 LinkedList<University> FileIO::readUniversityFile() {
+	//Create empty linked list
 	LinkedList<University> uniList;
+
+	//Open the CSV file for reading
 	ifstream file("2023 QS World University Rankings.csv");
 
 	//Declaration of variables
@@ -149,11 +153,12 @@ LinkedList<University> FileIO::readUniversityFile() {
 	return uniList;
 }
 
-//
+//Check if the data has '"' (quotations)
 string FileIO::checkNameValue(ifstream& file) {
 
 	char temp;
 	string value;
+	//Get the next character in the file
 	file.get(temp);
 
 	while (temp == '"') {
@@ -161,23 +166,28 @@ string FileIO::checkNameValue(ifstream& file) {
 		file.get(temp);
 	}
 
+	//Move the cursor forward by one character
+	//To pass the ',' (comma)
 	int num = file.tellg();
 	file.seekg(num + 1);
-
-	while (value[0] == ' ') {
-		value = value.substr(1);
-	}
 
 	return value;
 }
 
+//Check the numerical data
 string FileIO::checkNumberValue(ifstream& file, string value) {
+
+	//If the data read is '501+'
 	if (value == "501+") {
 		return "501";
 	}
+
+	//If the data read is '601+'
 	else if (value == "601+") {
 		return "601";
 	}
+
+	//If the data is empty
 	else if (value == "-" || value == "") {
 		return "0";
 	}

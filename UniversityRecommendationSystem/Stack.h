@@ -4,6 +4,7 @@
 
 using namespace std;
 
+//Structure for a node in the stack
 template<class T>
 struct StackNode {
 	T data;
@@ -31,6 +32,7 @@ public:
 	bool isEmpty();
 };
 
+//Create a new node for the stack
 template<class T>
 StackNode<T>* Stack<T>::createNewNode(T data) {
 	StackNode<T>* newNode = new StackNode<T>(data);
@@ -38,6 +40,7 @@ StackNode<T>* Stack<T>::createNewNode(T data) {
 	return newNode;
 }
 
+//Insert a new node to the front of the stack
 template<class T>
 void Stack<T>::push(T data) {
 	StackNode<T>* newNode = createNewNode(data);
@@ -53,6 +56,7 @@ void Stack<T>::push(T data) {
 	head = newNode;
 }
 
+//Remove the node at the front of the stack
 template<class T>
 T Stack<T>::pop() {
 	StackNode<T>* current = head;
@@ -63,16 +67,19 @@ T Stack<T>::pop() {
 	return current->data;
 }
 
+//Return the data in the node at the front of the stack
 template<class T>
 T Stack<T>::peek() {
 	return head->data;
 }
 
+//Return the size of the stack
 template<class T>
 int Stack<T>::getSize() {
 	return size;
 }
 
+//Check if the stack is empty
 template<class T>
 bool Stack<T>::isEmpty() {
 	if (size == 0) {
