@@ -12,13 +12,14 @@ bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1);
 void customerMenu(FeedbackLinkedList* cus, string username);
 bool moheLogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1);
 void moheMenu(hashTable* cus, FeedbackLinkedList* cus1);
-//void writeFeedback(string username, FeedbackLinkedList* cus);
+void writeFeedback(string username, FeedbackLinkedList* cus);
+void readFeedback(FeedbackLinkedList* admin);
 void displayUniversityList(bool, Criteria);
 void addFavouriteUniversity(int, int);
-//void registerAsUser(hashTable* cus);
+void registerAsUser(hashTable* cus);
+void replyFeedback(FeedbackLinkedList* admin);
 
 //hashTable addDemoData();
-
 LinkedList<University> uniList;
 hashTable userTable;
 user* currentUser;
@@ -27,7 +28,7 @@ void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 	FileIO fileIO;
 	uniList = fileIO.readUniversityFile();
 	//userTable = addDemoData();
-	
+
 	int input = 0;
 	bool valid = true;
 
@@ -71,8 +72,8 @@ void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 			displayUniversityList(false, NAME);
 		}
 
-	} while (input != 4 || !valid);
-	
+	} while ((input != 4) || !valid);
+
 }
 
 void displayUniversityList(bool hasFav, Criteria criteria) {
@@ -280,42 +281,62 @@ void addFavouriteUniversity(int min, int max) {
 }
 
 bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1) {
-	string username = "", password = "";
+	string username, password;
 	bool valid = true;
 
-	cout << "Username: ";
+	cout << "===== Customer Login Page =====" << endl;
+	cout << "Please enter your username: ";
 	cin >> username;
+	string realPassword = cus->searchUser(username)->password;
 
-	cin.clear();
-	cin.ignore();
-
-	user* customer = userTable.searchUser(username);
-
-	//If user is found
-	if (customer->userName != "") {
-
-		//If user account is a customer
-		if (customer->accType == "Customer") {
-			cout << "Password: ";
-			getline(cin, password);
-			cin.clear();
-
-			//If password matches
-			if (customer->password == password) {
-				system("cls");
-				currentUser = customer;
-				return true;
-			}
-
-			else {
-				cout << "Wrong password! Please try again." << endl;
-				return false;
-			}
+	while (true) {
+		cout << "Please enter your password: ";
+		cin >> password;
+		if (password == realPassword) {
+			customerMenu(cus1, username);
+			return true;
+		}
+		else {
+			cout << "Wrong password! Please try again!\n";
 		}
 	}
-
-	cout << "Invalid customer username! Please try again." << endl;
 	return false;
+	//string username = "", password = "";
+	//bool valid = true;
+
+	//cout << "Username: ";
+	//cin >> username;
+
+	//cin.clear();
+	//cin.ignore();
+
+	//user* customer = userTable.searchUser(username);
+
+	////If user is found
+	//if (customer->userName != "") {
+
+	//	//If user account is a customer
+	//	if (customer->accType == "Customer") {
+	//		cout << "Password: ";
+	//		getline(cin, password);
+	//		cin.clear();
+
+	//		//If password matches
+	//		if (customer->password == password) {
+	//			system("cls");
+	//			currentUser = customer;
+	//			return true;
+	//		}
+
+	//		else {
+	//			cout << "Wrong password! Please try again." << endl;
+	//			return false;
+	//		}
+	//	}
+	//}
+
+	//cout << "Invalid customer username! Please try again." << endl;
+	//return false;
 }
 
 bool moheLogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
@@ -331,7 +352,11 @@ bool moheLogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 		cout << "Please enter your password: ";
 		cin >> password;
 		if (password == realPassword) {
+			user* loggedInUser = admin->searchUser(username);
+			loggedInUser->lastActiveTime = time(nullptr);
+
 			moheMenu(cus, cus1);
+			return true;
 		}
 		else {
 			cout << "Wrong password! Please try again!\n";
@@ -351,14 +376,16 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 		cout << "1. Display User List" << endl;
 		cout << "2. Sort User List" << endl;
 		cout << "3. View University Feedback" << endl;
-		cout << "4. View Favourite University Summary" << endl;
-		cout << "5. Logout" << endl;
+		cout << "4. Reply Oldest Feedback" << endl;
+		cout << "5. View Favourite University Summary" << endl;
+		cout << "6. Delete Inactive Accounts" << endl;
+		cout << "7. Logout" << endl;
 		cout << "Enter option: ";
 		cin >> input;
 
 		system("cls");
 
-		if (cin.fail() || input < 1 || input > 5) {
+		if (cin.fail() || input < 1 || input > 7) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << endl << "Invalid option! Please try again!" << endl;
@@ -367,15 +394,18 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 			valid = false;
 		}
 		else if (input == 1) {
-
+			cus->printTable();
 		}
 		else if (input == 2) {
 			
 		}
 		else if (input == 3) {
-
+			readFeedback(cus1);
 		}
 		else if (input == 4) {
+			replyFeedback(cus1);
+		}
+		else if (input == 5) {
 			uniList.insertionSort(TOTAL_FAV_NUM, false);
 			cout << "========== Top 10 Favourite University ==========" << endl;
 			for (int i = 0; i < 10; i++) {
@@ -395,7 +425,15 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 				cout << endl;
 			}
 		}
-	} while (input != 5 || !valid);
+		else if (input == 6) {
+			cus->deleteInactiveAccounts();
+		}
+		else if (input == 7) {
+			valid = false;
+			system("cls");
+			return;
+		}
+	} while (input != 7 || !valid);
 }
 
 void customerMenu(FeedbackLinkedList* cus, string username) {
@@ -431,7 +469,7 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 
 		}
 		else if (input == 4) {
-			//writeFeedback(username, cus);
+			writeFeedback(username, cus);
 		}
 		else if (input == 5) {
 			valid = false;
@@ -439,6 +477,82 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 			return;
 		}
 	} while (input != 5 || !valid);
+}
+
+void registerAsUser(hashTable* cus) {
+	string name, pw;
+	char input;
+	cout << "===== Customer Register Page =====" << endl << endl;
+	cout << "Please enter your name: ";
+	cin.ignore();
+	getline(cin, name);
+	cout << "Please enter your password: ";
+	cin >> pw;
+	time_t currentTime = time(nullptr);
+	cus->addUserAcc(name, pw, "cus", currentTime);
+	while (true) {
+		cout << "\nCongragulations! You successfully registered as customer! Enter Q to quit " << endl;
+		cin >> input;
+		cout << endl;
+		if (input == 'Q') {
+			cout << "==================================" << endl;
+			system("cls");
+			return;
+		}
+		else {
+			cout << "Invalid input! Please enter again!" << endl;
+		}
+	}
+}
+
+void writeFeedback(string username, FeedbackLinkedList* cus) {
+	string feedback;
+	time_t currentTime = time(nullptr);
+
+	cout << "===== Write Feedback =====" << endl << endl;
+	cout << "Please enter your feedback: ";
+	cin.ignore();
+	getline(cin, feedback);
+	cus->insertToEnd(username, currentTime, feedback, false, "", currentTime);
+}
+
+void readFeedback(FeedbackLinkedList* admin) {
+	system("cls");
+	cout << "===== Read Feedback =====" << endl;
+	admin->display();
+}
+
+void replyFeedback(FeedbackLinkedList* admin) {
+	string reply;
+	cout << "===== Reply Feedback =====" << endl << endl;
+	cout << "Please enter your reply: ";
+	cin.ignore();
+	getline(cin, reply);
+	admin->replyFeedback(reply);
+}
+
+int main() {
+	hashTable* cus = new hashTable();
+	hashTable* admin = new hashTable();
+	FeedbackLinkedList* cus1 = new FeedbackLinkedList();
+	time_t currentTime = time(nullptr);
+	admin->addUserAcc("hello", "12345", "admin", currentTime); //admin account
+
+	// 30/5/2022
+	struct tm timeStruct;
+	timeStruct.tm_sec = 0;
+	timeStruct.tm_min = 0;
+	timeStruct.tm_hour = 0;
+	timeStruct.tm_mday = 30;
+	timeStruct.tm_mon = 4; 
+	timeStruct.tm_year = 122;
+	timeStruct.tm_isdst = -1;
+
+	time_t creationTime = mktime(&timeStruct);
+	cus->addUserAcc("shin", "shin", "Customer", creationTime);
+	cus->addUserAcc("cus2", "67890", "Customer", currentTime);
+	homePage(admin, cus, cus1);
+	return 0;
 }
 
 //hashTable addDemoData() {
@@ -458,12 +572,3 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 //
 //	return userTable;
 //}
-
-int main() {
-	hashTable* cus = new hashTable();
-	hashTable* admin = new hashTable();
-	FeedbackLinkedList* cus1 = new FeedbackLinkedList();
-	admin->addUserAcc("hello", "12345", "admin"); //admin account
-	homePage(admin, cus, cus1);
-	return 0;
-}

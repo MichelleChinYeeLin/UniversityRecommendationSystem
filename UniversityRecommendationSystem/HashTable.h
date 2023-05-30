@@ -10,6 +10,7 @@ struct user {
 	string userName;
 	string password;
 	string accType;
+	time_t lastActiveTime;
 	LinkedList<University> favUniList;
 	user* next;
 };
@@ -23,13 +24,14 @@ private:
 public:
 	hashTable();
 	int hash(string username);
-	void addUserAcc(string username, string password, string accType);
+	void addUserAcc(string username, string password, string accType, time_t lastActiveTime);
 	int numberOfItemsInIndex(int index);
 	void printTable();
 	void printItemsInIndex(int index);
 	user* searchUser(string username);
 	void removeUserAcc(string username);
 	int updatePwd(string username);
+	void deleteInactiveAccounts();
 	//LinkedList<University> getFavUniList(string userName);
 };
 
@@ -52,7 +54,7 @@ int hashTable::hash(string key) {
 	return index;
 }
 
-void hashTable::addUserAcc(string username, string password, string accType) {
+void hashTable::addUserAcc(string username, string password, string accType, time_t lastActiveTime) {
 	int hashValue = hash(username); //hash the username
 
 	// if it is empty
@@ -60,6 +62,7 @@ void hashTable::addUserAcc(string username, string password, string accType) {
 		hash_Table[hashValue]->userName = username;
 		hash_Table[hashValue]->password = password;
 		hash_Table[hashValue]->accType = accType;
+		hash_Table[hashValue]->lastActiveTime = lastActiveTime;
 		// handle collision
 	}
 	else {
@@ -68,10 +71,11 @@ void hashTable::addUserAcc(string username, string password, string accType) {
 		newUser->userName = username;
 		newUser->password = password;
 		newUser->accType = accType;
-		newUser->next = NULL;
+		newUser->lastActiveTime = lastActiveTime;
+		newUser->next = nullptr;
 
 		//tranversal until last item
-		while (ptr->next != NULL) {
+		while (ptr->next != nullptr) {
 			ptr = ptr->next;
 		}
 		ptr->next = newUser; // link the new item to the end of the linked list
@@ -103,8 +107,8 @@ void hashTable::printTable() {
 		cout << "index = " << i << endl;
 		cout << hash_Table[i]->userName << endl;
 		cout << hash_Table[i]->password << endl;
-		cout << "# of users = " << number << endl;
-		cout << "-------------------------\n";
+		//cout << "# of users = " << number << endl;
+		//cout << "-------------------------\n";
 	}
 }
 
@@ -252,5 +256,49 @@ int hashTable::updatePwd(string username) {
 //
 //	return LinkedList<University>();
 //}
+
+void hashTable::deleteInactiveAccounts() {
+	time_t currentTime = time(nullptr);
+	time_t oneYearAgo = currentTime - (365 * 24 * 60 * 60); // 1 year in seconds
+
+	for (int i = 0; i < tableSize; i++) {
+		user* currentUser = hash_Table[i];
+		user* prevUser = nullptr;
+
+		while (currentUser != nullptr) {
+			if (currentUser->lastActiveTime <= oneYearAgo /*&& currentUser->userName != "empty"*/) {
+				// Ask the admin for confirmation
+				cout << "User " << currentUser->userName << " has been inactive for more than a year. Do you want to delete this account? (Y/N): ";
+				string choice;
+				cin >> choice;
+
+				if (choice == "Y") {
+					// Delete the inactive user account
+					if (prevUser == nullptr) {
+						// If it's the first element
+						hash_Table[i] = currentUser->next;
+						delete currentUser;
+						currentUser = hash_Table[i];
+					}
+					else {
+						// If it's not the first element
+						prevUser->next = currentUser->next;
+						delete currentUser;
+						currentUser = prevUser->next;
+					}
+				}
+				else {
+					// Admin chose not to delete the account
+					prevUser = currentUser;
+					currentUser = currentUser->next;
+				}
+			}
+			else {
+				prevUser = currentUser;
+				currentUser = currentUser->next;
+			}
+		}
+	}
+}
 
 #endif
