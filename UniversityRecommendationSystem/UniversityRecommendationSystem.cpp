@@ -496,18 +496,18 @@ void customerMenu() {
 					bool isAscOrder = orderOption == 1 ? true : false;
 
 					//Start timer for sorting
-					//auto start = high_resolution_clock::now();
+					auto start = high_resolution_clock::now();
 					//uniList.insertionSort(criteria, isAscOrder);
 
 					uniList.quickSort(criteria, isAscOrder);
 
 					//Record time taken for sorting//
-					/*auto stop = high_resolution_clock::now();
+					auto stop = high_resolution_clock::now();
 					auto duration = duration_cast<microseconds>(stop - start);
 					cout << "Time taken by quick sort algorithm: ";
 					cout << duration.count() << " microseconds." << endl;
 					system("pause");
-					system("cls");*/
+					system("cls");
 
 					displayUniversityList(true, criteria);
 				}
