@@ -668,12 +668,19 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 		}
 
 		else {
-
 			double numValue1 = currentUniversity.getUniversityNumValue(criteria);
 			double numValue2 = tempUniversity.getUniversityNumValue(criteria);
 
+			if (numValue1 == 0) {
+				numValue1 = 701;
+			}
+
+			if (numValue2 == 0) {
+				numValue2 = 701;
+			}
+
 			if (isAscOrder) {
-				while (index > 0 && numValue2 > numValue1) {
+				while (index > 0 && numValue2 >= numValue1) {
 
 					swapNodePosition(current, temp);
 
@@ -687,11 +694,19 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 
 					numValue1 = university1.getUniversityNumValue(criteria);
 					numValue2 = university2.getUniversityNumValue(criteria);
+
+					if (numValue1 == 0) {
+						numValue1 = 701;
+					}
+
+					if (numValue2 == 0) {
+						numValue2 = 701;
+					}
 				}
 			}
 
 			else {
-				while (index > 0 && numValue1 > numValue2) {
+				while (index > 0 && numValue1 >= numValue2) {
 
 					swapNodePosition(current, temp);
 
@@ -705,6 +720,14 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 
 					numValue1 = university1.getUniversityNumValue(criteria);
 					numValue2 = university2.getUniversityNumValue(criteria);
+
+					if (numValue1 == 0) {
+						numValue1 = 701;
+					}
+
+					if (numValue2 == 0) {
+						numValue2 = 701;
+					}
 				}
 			}
 		}
@@ -767,9 +790,27 @@ int LinkedList<University>::partition(Criteria criteria, bool isAscOrder, int fi
 			}
 		}
 
+		else if (criteria == TOTAL_FAV_NUM) {
+			pivotNumValue = pivotUniversity.getTotalFavNum();
+			currentNumValue = currentUniversity.getTotalFavNum();
+
+			if (currentNumValue > pivotNumValue) {
+				index++;
+				swapNodePosition(current, getFromPosition(index));
+			}
+		}
+
 		else {
 			pivotNumValue = pivotUniversity.getUniversityNumValue(criteria);
 			currentNumValue = currentUniversity.getUniversityNumValue(criteria);
+
+			if (pivotNumValue == 0) {
+				pivotNumValue = 701;
+			}
+
+			if (currentNumValue == 0) {
+				currentNumValue = 701;
+			}
 
 			if (isAscOrder) {
 

@@ -23,8 +23,11 @@ hashTable userTable;
 user* currentUser;
 
 int main() {
+	//Read the university CSV file
 	FileIO fileIO;
 	uniList = fileIO.readUniversityFile();
+
+	//Add user data for demonstration
 	userTable = addDemoData();
 	
 	int input = 0;
@@ -34,17 +37,23 @@ int main() {
 	do {
 		valid = true;
 
+		//Display menu
 		cout << "1. Customer Login" << endl;
 		cout << "2. MoHE Login" << endl;
 		cout << "3. Display University Information" << endl;
 		cout << "4. Quit" << endl;
 		cout << "Enter option: ";
+
+		//Read user input
 		cin >> input;
 		cout << endl << endl;
 
+		//If user input is invalid
 		if (cin.fail() || input < 1 || input > 4) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			//Display error message
 			cout << endl << "Invalid option! Please try again!" << endl;
 			system("pause");
 			system("cls");
@@ -52,14 +61,17 @@ int main() {
 		}
 
 		else if (input == 1) {
+			//Allow user to log in as customer
 			valid = customerLogin();
 
+			//If customer username and password is valid
 			if (valid) {
 				customerMenu();
 				valid = false;
 				system("cls");
 			}
 
+			//If customer username and password is invalid
 			else {
 				system("pause");
 				system("cls");
@@ -67,14 +79,17 @@ int main() {
 		}
 
 		else if (input == 2) {
+			//Allow user to log in as MoHE
 			valid = moheLogin();
 
+			//If MoHE username and password is valid
 			if (valid) {
 				moheMenu();
 				valid = false;
 				system("cls");
 			}
 
+			//If MoHE username and password is invalid
 			else {
 				system("pause");
 				system("cls");
@@ -83,7 +98,13 @@ int main() {
 
 		else if (input == 3) {
 			system("cls");
+
+			//Set default sorting criteria as 'rank'
 			uniList.insertionSort(RANK, true);
+
+			//Display university list
+			//Without option to add favourites
+			//Display the 'name' criteria
 			displayUniversityList(false, NAME);
 		}
 
@@ -92,15 +113,21 @@ int main() {
 	return 0;
 }
 
+//Display the university list
+//hasFav: allows the user to add a university to favourites
+//criteria: set the criteria that needs to be displayed
 void displayUniversityList(bool hasFav, Criteria criteria) {
 
+	//Display 100 universities at one time
 	int itemNum = 100;
 	string input = "";
 	
+	//Create stacks to act as 'next' and 'previous' university list
 	Stack<University> nextStack;
 	Stack<University> currentStack;
 	Stack<University> prevStack;
 
+	//Add all universities into the next stack
 	for (int i = uniList.getSize() - 1; i >= 0; i--) {
 		nextStack.push(uniList.getFromPosition(i)->data);
 	}
@@ -111,6 +138,8 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 
 		//Display header
 		cout << string(135, '=') << endl;
+
+		//If the criteria is 'name', 'location_code' or 'location'
 		if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
 			cout << left << setw(5) << "No." << setw(10) << "Rank" << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
 		}
@@ -119,6 +148,7 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 			string rank;
 			string score;
 
+			//Check the criteria to create the header
 			switch (criteria) {
 			case ARRANK:
 			case ARSCORE:
@@ -166,6 +196,7 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 				score = "Score Scaled";
 			}
 
+			//Display the header based on the criteria
 			cout << left << setw(5) << "No." << setw(10) << rank << setw(90) << "Name" << setw(15) << score << endl;
 		}
 		cout << string(135, '=') << endl;
@@ -183,16 +214,25 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 		}
 
 		if (hasFav) {
-			cout << endl << "Enter 'P' to view previous page, 'N' to view next page, 'F' to favourite a university: ";
+			cout << endl << "Enter 'P' to view previous page, 'N' to view next page, 'F' to favourite a university";
+			cout << endl << "Enter any other key to exit";
+			cout << endl << "Option: ";
 			cin >> input;
 
 			if (input == "F") {
 				addFavouriteUniversity(numCount, numCount + itemNum);
+
+				while (!currentStack.isEmpty()) {
+					University temp = currentStack.pop();
+					nextStack.push(temp);
+				}
 			}
 		}
 
 		else {
-			cout << endl << "Enter 'P' to view previous page, 'N' to view next page: ";
+			cout << endl << "Enter 'P' to view previous page, 'N' to view next page";
+			cout << endl << "Enter any other key to exit";
+			cout << endl << "Option: ";
 			cin >> input;
 		}
 
@@ -408,28 +448,28 @@ void customerMenu() {
 					criteria = LOCATION;
 					break;
 				case 5:
-					criteria = ARSCORE;
+					criteria = ARRANK;
 					break;
 				case 6:
-					criteria = ERSCORE;
+					criteria = ERRANK;
 					break;
 				case 7:
-					criteria = FSRSCORE;
+					criteria = FSRRANK;
 					break;
 				case 8:
-					criteria = CPFSCORE;
+					criteria = CPFRANK;
 					break;
 				case 9:
-					criteria = IFRSCORE;
+					criteria = IFRRANK;
 					break;
 				case 10:
-					criteria = ISRSCORE;
+					criteria = ISRRANK;
 					break;
 				case 11:
-					criteria = IRNSCORE;
+					criteria = IRNRANK;
 					break;
 				case 12:
-					criteria = GERSCORE;
+					criteria = GERRANK;
 					break;
 				}
 
@@ -688,7 +728,8 @@ void moheMenu() {
 
 		}
 		else if (input == 4) {
-			uniList.insertionSort(TOTAL_FAV_NUM, false);
+			//uniList.insertionSort(TOTAL_FAV_NUM, false);
+			uniList.quickSort(TOTAL_FAV_NUM, false);
 			cout << "========== Top 10 Favourite University ==========" << endl;
 			for (int i = 0; i < 10; i++) {
 				University university = uniList.getFromPosition(i)->data;
