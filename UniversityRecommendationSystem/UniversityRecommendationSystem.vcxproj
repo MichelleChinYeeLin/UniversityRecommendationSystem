@@ -127,10 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FeedbackLinkedList.cpp" />
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="UniversityRecommendationSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FeedbackLinkedList.hpp" />
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="LinkedList.h" />
