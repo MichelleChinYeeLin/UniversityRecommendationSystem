@@ -610,13 +610,13 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 
 			//Sort by ascending order
 			if (isAscOrder) {
-				//
+				//If the next node has a larger value than the current node
 				while (index > 0 && stringValue2 > stringValue1) {
 					swapNodePosition(current, temp);
 
 					index -= 1;
 
-					//Get university values
+					//Get the values from the sorted part to perform comparison
 					current = getFromPosition(index);
 					temp = getFromPosition(index - 1);
 
@@ -630,11 +630,13 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 
 			//Sort by descending order
 			else {
+				//If the current node has a larger value than the next node
 				while (index > 0 && stringValue1 > stringValue2) {
 					swapNodePosition(current, temp);
 
 					index -= 1;
 
+					//Get the values from the sorted part to perform comparison
 					current = getFromPosition(index);
 					temp = getFromPosition(index - 1);
 
@@ -647,6 +649,7 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 			}
 		}
 
+		//If the criteria is the total number of favourites for the university
 		else if (criteria == TOTAL_FAV_NUM) {
 			int numValue1 = currentUniversity.getTotalFavNum();
 			int numValue2 = tempUniversity.getTotalFavNum();
@@ -656,6 +659,7 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 
 				index -= 1;
 
+				//Get the values from the sorted part to perform comparison
 				current = getFromPosition(index);
 				temp = getFromPosition(index - 1);
 
@@ -679,6 +683,7 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 				numValue2 = 701;
 			}
 
+			//Sort by ascending order
 			if (isAscOrder) {
 				while (index > 0 && numValue2 >= numValue1) {
 
@@ -686,6 +691,7 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 
 					index -= 1;
 
+					//Get the values from the sorted part to perform comparison
 					current = getFromPosition(index);
 					temp = getFromPosition(index - 1);
 
@@ -695,6 +701,7 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 					numValue1 = university1.getUniversityNumValue(criteria);
 					numValue2 = university2.getUniversityNumValue(criteria);
 
+					//Validation for universities that do not have a rank
 					if (numValue1 == 0) {
 						numValue1 = 701;
 					}
@@ -705,6 +712,7 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 				}
 			}
 
+			//Sort by descending order
 			else {
 				while (index > 0 && numValue1 >= numValue2) {
 
@@ -712,6 +720,7 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 
 					index -= 1;
 
+					//Get the values from the sorted part to perform comparison
 					current = getFromPosition(index);
 					temp = getFromPosition(index - 1);
 
@@ -721,6 +730,7 @@ void LinkedList<University>::insertionSort(Criteria criteria, bool isAscOrder) {
 					numValue1 = university1.getUniversityNumValue(criteria);
 					numValue2 = university2.getUniversityNumValue(criteria);
 
+					//Validation for universities that do not have a rank
 					if (numValue1 == 0) {
 						numValue1 = 701;
 					}
@@ -743,7 +753,11 @@ template<>
 void LinkedList<University>::quickSortRecursive(Criteria criteria, bool isAscOrder, int firstIndex, int lastIndex) {
 	if (firstIndex < lastIndex) {
 		int index = partition(criteria, isAscOrder, firstIndex, lastIndex);
+
+		//Sort the values to the left of the index
 		quickSortRecursive(criteria, isAscOrder, firstIndex, index - 1);
+
+		//Sort the values to the right of the index
 		quickSortRecursive(criteria, isAscOrder, index + 1, lastIndex);
 	}
 }
@@ -751,27 +765,26 @@ void LinkedList<University>::quickSortRecursive(Criteria criteria, bool isAscOrd
 template<>
 int LinkedList<University>::partition(Criteria criteria, bool isAscOrder, int firstIndex, int lastIndex) {
 
+	//Set the last element as the pivot point
 	Node<University>* pivot = getFromPosition(lastIndex);
 
 	University pivotUniversity = pivot->data;
-
 	string pivotStringValue = "", currentStringValue = "";
 	double pivotNumValue = 0, currentNumValue = 0;
 
 	int index = firstIndex - 1;
 
 	for (int i = firstIndex; i <= lastIndex - 1; i++) {
-		if (i == 147) {
-			int test = 0;
-		}
-
+		//Get the university from the current node
 		Node<University>* current = getFromPosition(i);
 		University currentUniversity = current->data;
 
+		//If the criteria is name, location code or location
 		if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
 			pivotStringValue = pivotUniversity.getUniversityStringValue(criteria);
 			currentStringValue = currentUniversity.getUniversityStringValue(criteria);
 
+			//Sort by ascending order
 			if (isAscOrder) {
 
 				if (currentStringValue < pivotStringValue) {
@@ -782,6 +795,7 @@ int LinkedList<University>::partition(Criteria criteria, bool isAscOrder, int fi
 				}
 			}
 
+			//Sort by descending order
 			else {
 				if (currentStringValue > pivotStringValue) {
 					index++;
@@ -790,6 +804,7 @@ int LinkedList<University>::partition(Criteria criteria, bool isAscOrder, int fi
 			}
 		}
 
+		//If criteria is total favourites for a university
 		else if (criteria == TOTAL_FAV_NUM) {
 			pivotNumValue = pivotUniversity.getTotalFavNum();
 			currentNumValue = currentUniversity.getTotalFavNum();
@@ -804,6 +819,7 @@ int LinkedList<University>::partition(Criteria criteria, bool isAscOrder, int fi
 			pivotNumValue = pivotUniversity.getUniversityNumValue(criteria);
 			currentNumValue = currentUniversity.getUniversityNumValue(criteria);
 
+			//Validate for universities without ranks
 			if (pivotNumValue == 0) {
 				pivotNumValue = 701;
 			}
@@ -812,6 +828,7 @@ int LinkedList<University>::partition(Criteria criteria, bool isAscOrder, int fi
 				currentNumValue = 701;
 			}
 
+			//Sort by ascending order
 			if (isAscOrder) {
 
 				if (currentNumValue < pivotNumValue) {
@@ -820,6 +837,7 @@ int LinkedList<University>::partition(Criteria criteria, bool isAscOrder, int fi
 				}
 			}
 
+			//Sort by descending order
 			else {
 				if (currentNumValue > pivotNumValue) {
 					index++;
@@ -829,15 +847,18 @@ int LinkedList<University>::partition(Criteria criteria, bool isAscOrder, int fi
 		}
 	}
 
+	//Swap the index node with the pivot node
 	swapNodePosition(getFromPosition(index + 1), getFromPosition(lastIndex));
 	return index + 1;
 }
 
+//Change the string into upper case
 template<class T>
 string LinkedList<T>::toUpperCase(string value) {
 
 	string newString = "";
 
+	//Loop through all characters in the string
 	for (int i = 0; i < value.size(); i++) {
 		char c = value[i];
 		c = toupper(c);

@@ -502,12 +502,12 @@ void customerMenu() {
 					uniList.quickSort(criteria, isAscOrder);
 
 					//Record time taken for sorting//
-					auto stop = high_resolution_clock::now();
+					/*auto stop = high_resolution_clock::now();
 					auto duration = duration_cast<microseconds>(stop - start);
 					cout << "Time taken by quick sort algorithm: ";
 					cout << duration.count() << " microseconds." << endl;
 					system("pause");
-					system("cls");
+					system("cls");*/
 
 					displayUniversityList(true, criteria);
 				}
