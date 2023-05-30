@@ -90,7 +90,7 @@ int hashTable::numberOfItemsInIndex(int index) {
 	}
 	else {
 		user* ptr = hash_Table[index];
-		while (ptr->next != NULL) {
+		while (/*ptr->next != NULL*/ ptr != nullptr) {
 			count++;
 			ptr = ptr->next;
 		}
@@ -98,19 +98,34 @@ int hashTable::numberOfItemsInIndex(int index) {
 	return count;
 }
 
-void hashTable::printTable() {
-	int number;
+//void hashTable::printTable() {
+//	int number;
+//
+//	for (int i = 0; i < tableSize; i++) {
+//		number = numberOfItemsInIndex(i);
+//		cout << "-------------------------\n";
+//		cout << "index = " << i << endl;
+//		cout << hash_Table[i]->userName << endl;
+//		cout << hash_Table[i]->password << endl;
+//		//cout << "# of users = " << number << endl;
+//		//cout << "-------------------------\n";
+//	}
+//}
 
+void hashTable::printTable() {
 	for (int i = 0; i < tableSize; i++) {
-		number = numberOfItemsInIndex(i);
 		cout << "-------------------------\n";
 		cout << "index = " << i << endl;
-		cout << hash_Table[i]->userName << endl;
-		cout << hash_Table[i]->password << endl;
-		//cout << "# of users = " << number << endl;
-		//cout << "-------------------------\n";
+
+		user* ptr = hash_Table[i];
+		while (ptr != nullptr && ptr->userName != "empty") {
+			cout << ptr->userName << endl;
+			cout << ptr->password << endl;
+			ptr = ptr->next;
+		}
 	}
 }
+
 
 void hashTable::printItemsInIndex(int index) {
 	user* ptr = hash_Table[index];
@@ -266,7 +281,7 @@ void hashTable::deleteInactiveAccounts() {
 		user* prevUser = nullptr;
 
 		while (currentUser != nullptr) {
-			if (currentUser->lastActiveTime <= oneYearAgo /*&& currentUser->userName != "empty"*/) {
+			if (currentUser->lastActiveTime <= oneYearAgo && currentUser->userName != "empty") {
 				// Ask the admin for confirmation
 				cout << "User " << currentUser->userName << " has been inactive for more than a year. Do you want to delete this account? (Y/N): ";
 				string choice;
