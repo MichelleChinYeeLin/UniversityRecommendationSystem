@@ -79,6 +79,8 @@ void FeedbackLinkedList::removeFromFront(feedback* newNode) {
 void FeedbackLinkedList::display() {
 	feedback* temp = head;
 	while (temp != NULL) {
+		system("cls");
+
 		char timeString[26];
 		ctime_s(timeString, sizeof(timeString), &temp->feedbackTime);
 		timeString[strcspn(timeString, "\n")] = '\0';
@@ -98,8 +100,40 @@ void FeedbackLinkedList::display() {
 			cout << "No reply available for this feedback." << endl;
 		}
 
+		string userInput;
 		cout << endl << endl;
-		temp = temp->next;
+		cout << "Enter 'N' to view next feedback, 'P' to view previous feedback" << endl;
+		cout << "Enter any other key to exit" << endl;
+		cout << "Option: ";
+		cin >> userInput;
+
+		if (userInput == "N") {
+
+			if (temp->next == NULL) {
+				cout << "No next feedback!" << endl;
+				system("pause");
+				system("cls");
+				continue;
+			}
+
+			temp = temp->next;
+		}
+
+		else if (userInput == "P") {
+
+			if (temp->prev == NULL) {
+				cout << "No previous feedback!" << endl;
+				system("pause");
+				system("cls");
+				continue;
+			}
+
+			temp = temp->prev;
+		}
+
+		else {
+			break;
+		}
 	}
 }
 

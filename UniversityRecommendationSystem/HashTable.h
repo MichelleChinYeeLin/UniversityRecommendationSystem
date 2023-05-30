@@ -97,20 +97,6 @@ int hashTable::numberOfItemsInIndex(int index) {
 	return count;
 }
 
-//void hashTable::printTable() {
-//	int number;
-//
-//	for (int i = 0; i < tableSize; i++) {
-//		number = numberOfItemsInIndex(i);
-//		cout << "-------------------------\n";
-//		cout << "index = " << i << endl;
-//		cout << hash_Table[i]->userName << endl;
-//		cout << hash_Table[i]->password << endl;
-//		//cout << "# of users = " << number << endl;
-//		//cout << "-------------------------\n";
-//	}
-//}
-
 void hashTable::printTable() {
 	for (int i = 0; i < tableSize; i++) {
 		cout << "-------------------------\n";
@@ -152,13 +138,7 @@ user* hashTable::searchUser(string username) {
 	user* ptr = hash_Table[hashValue]; //pointing to the first item in the bucket
 	while (ptr != NULL) {
 		if (ptr->userName == username) {
-			//found = true;
-			//cout << "------------------\n";
-			//cout << "User " << username << " was in the hash table\n";
-			//cout << "------------------\n";
 			return ptr;
-
-			//return true;
 		}
 		ptr = ptr->next;
 	}
@@ -167,22 +147,6 @@ user* hashTable::searchUser(string username) {
 	emptyUser->userName = "";
 
 	return emptyUser;
-
-	//cout << "------------------\n";
-	//cout << "User " << username << " was not found in the hash table\n";
-	//cout << "------------------\n";
-
-	/*if (found == true) {
-		cout << "------------------\n";
-		cout << "User " << username << " was in the hash table\n";
-		cout << "------------------\n";
-	}
-	else {
-		cout << "------------------\n";
-		cout << "User " << username << " was not found in the hash table\n";
-		cout << "------------------\n";
-	}
-	return username;*/
 }
 
 void hashTable::removeUserAcc(string username) {
@@ -256,20 +220,6 @@ int hashTable::updatePwd(string username) {
 
 	return index;
 }
-
-//LinkedList<University> hashTable::getFavUniList(string userName) {
-//	int hashValue = hash(userName);
-//
-//	user* ptr = hash_Table[hashValue]; //pointing to the first item in the bucket
-//	while (ptr != NULL) {
-//		if (ptr->userName == userName) {
-//			return ptr->favUniList;
-//		}
-//		ptr = ptr->next;
-//	}
-//
-//	return LinkedList<University>();
-//}
 
 void hashTable::deleteInactiveAccounts() {
 	time_t currentTime = time(nullptr);

@@ -35,9 +35,9 @@ public:
 	void deleteFromFront();
 	void deleteFromEnd();
 	Node<T>* getFromPosition(int);
+	Node<University>* binarySearch(Criteria, const string&);
 	LinkedList<University> binarySearch(Criteria, const double&);
 	Node<T>* linearSearch(T key);
-	//Node<T>* jumpSearch(T key);
 	bool display(int, int);
 	void insertionSort(Criteria, bool);
 	void quickSort(Criteria, bool);
@@ -274,114 +274,47 @@ Node<T>* LinkedList<T>::linearSearch(T key) {
 	return NULL;
 }
 
-//template<class T >
-//Node<T>* LinkedList<T>::binarySearch(Criteria criteria,T key) {
-//	// get the size of linked list
-//	int size = this->getSize();
-//
-//	// if the linked list is empty
-//	if (size == 0) {
-//		return NULL;
-//	}
-//
-//	// set boundaries (low: the first index, high: the last index)
-//	int low = 0;
-//	int high = size - 1;
-//
-//	if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
-//		while (low <= high) {
-//			// find the middle
-//			int mid = (low + high) / 2;
-//
-//			Node<T>* node = this->getFromPosition(mid);
-//			string nodeValue = node->data.getName();
-//
-//			// found
-//			if (nodeValue == key.getName()) {
-//				return node;
-//			}
-//
-//			// nodeValue < key
-//			else if (nodeValue < key.getName()) {
-//				low = mid + 1;
-//			}
-//
-//			// nodeValue > key
-//			else {
-//				high = mid - 1;
-//			}
-//		}
-//	}
-//	else {
-//		while (low <= high) {
-//			// find the middle
-//			int mid = (low + high) / 2;
-//
-//			Node<T>* node = this->getFromPosition(mid);
-//			University currentUniversity = node->data;
-//			double nodeValue = currentUniversity.getUniversityNumValue(criteria);
-//
-//			// found
-//			if (nodeValue == key.getName()) {
-//				return node;
-//			}
-//
-//			// nodeValue < key
-//			else if (nodeValue < key.getName()) {
-//				low = mid + 1;
-//			}
-//
-//			// nodeValue > key
-//			else {
-//				high = mid - 1;
-//			}
-//		}
-//	}
-//	// not found
-//	return NULL;
-//}
+template<>
+Node<University>* LinkedList<University>::binarySearch(Criteria criteria, const string& key) {
+	// get the size of linked list
+	int size = this->getSize();
 
-//template<class T>
-//Node<T>* LinkedList<T>::binarySearch(Criteria criteria, const string& key) {
-//	// get the size of linked list
-//	int size = this->getSize();
-//
-//	// if the linked list is empty
-//	if (size == 0) {
-//		return NULL;
-//	}
-//
-//	// set boundaries (low: the first index, high: the last index)
-//	int low = 0;
-//	int high = size - 1;
-//
-//	while (low <= high) {
-//		// find the middle
-//		int mid = (low + high) / 2;
-//
-//		Node<T>* node = this->getFromPosition(mid);
-//		University currentUniversity = node->data;
-//		string nodeValue = currentUniversity.getUniversityStringValue(criteria);
-//
-//		// found
-//		if (nodeValue == key) {
-//			return node;
-//		}
-//
-//		// nodeValue < key
-//		else if (nodeValue < key) {
-//			low = mid + 1;
-//		}
-//
-//		// nodeValue > key
-//		else {
-//			high = mid - 1;
-//		}
-//	}
-//
-//	// not found
-//	return NULL;
-//}
+	// if the linked list is empty
+	if (size == 0) {
+		return NULL;
+	}
+
+	// set boundaries (low: the first index, high: the last index)
+	int low = 0;
+	int high = size - 1;
+
+	while (low <= high) {
+		// find the middle
+		int mid = (low + high) / 2;
+
+		Node<University>* node = this->getFromPosition(mid);
+		University currentUniversity = node->data;
+		string nodeValue = currentUniversity.getUniversityStringValue(criteria);
+
+		// found
+		if (nodeValue == key) {
+			return node;
+		}
+
+		// nodeValue < key
+		else if (nodeValue < key) {
+			low = mid + 1;
+		}
+
+		// nodeValue > key
+		else {
+			high = mid - 1;
+		}
+	}
+
+	// not found
+	return NULL;
+}
 
 //Binary search to find a value
 template<>
@@ -468,79 +401,6 @@ LinkedList<University> LinkedList<University>::binarySearch(Criteria criteria, c
 
 	return matchesList;
 }
-
-//template<class T >
-//Node<T>* LinkedList<T>::binarySearch(T key) {
-//	// get the size of linked list
-//	int size = this->getSize();
-//
-//	// if the linked list is empty
-//	if (size == 0) {
-//		return NULL;
-//	}
-//
-//	// set boundaries (low: the first index, high: the last index)
-//	int low = 0;
-//	int high = size - 1;
-//
-//	while (low <= high) {
-//		// find the middle
-//		int mid = (low + high) / 2;
-//
-//		Node<T>* node = this->getFromPosition(mid);
-//		string nodeValue = node->data.getName();
-//
-//		// found
-//		if (nodeValue == key.getName()) {
-//			return node;
-//		}
-//
-//		// nodeValue < key
-//		else if (nodeValue < key.getName()) {
-//			low = mid + 1;
-//		}
-//
-//		// nodeValue > key
-//		else {
-//			high = mid - 1;
-//		}
-//	}
-//
-//	// not found
-//	return NULL;
-//}
-
-//template<class T>
-//Node<T>* LinkedList<T>::jumpSearch(T key) {
-//	int n = 0;
-//	Node<T>* curr = head;
-//
-//	while (curr != nullptr) {
-//		n++;
-//		curr = curr->next;
-//	}
-//
-//	int jump = sqrt(n);
-//	curr = head;
-//	Node<T>* prev = nullptr;
-//
-//	while (curr != nullptr && curr->data.getName() < key.getName()) {
-//		prev = curr;
-//		for (int i = 0; i < jump && curr != nullptr; i++) {
-//			curr = curr->next;
-//		}
-//	}
-//
-//	while (prev != nullptr && prev->data.getName() < key.getName()) {
-//		prev = prev->next;
-//	}
-//
-//	if (prev != nullptr && prev->data.getName() == key.getName()) {
-//		return prev;
-//	}
-//
-//	return nullptr;
-//}
 
 //Display univeristy values in the linked list
 template<>

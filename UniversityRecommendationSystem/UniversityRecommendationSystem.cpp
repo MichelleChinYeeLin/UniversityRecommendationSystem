@@ -21,7 +21,6 @@ void addFavouriteUniversity(int, int);
 void registerAsUser(hashTable* cus);
 void replyFeedback(FeedbackLinkedList* admin);
 
-//hashTable addDemoData();
 LinkedList<University> uniList;
 hashTable userTable;
 user* currentUser;
@@ -62,17 +61,11 @@ void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 		}
 
 		else if (input == 1) {
-			customerLogin(cus, cus1);
+			valid = customerLogin(cus, cus1);
 		}
 
 		else if (input == 2) {
 			valid = moheLogin(admin, cus, cus1);
-
-			//If MoHE username and password is valid
-			if (valid) {
-				moheMenu(cus, cus1);
-				valid = false;
-			}
 		}
 
 		else if (input == 3) {
@@ -92,8 +85,6 @@ void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 }
 
 //Display the university list
-//hasFav: allows the user to add a university to favourites
-//criteria: set the criteria that needs to be displayed
 void displayUniversityList(bool hasFav, Criteria criteria) {
 
 	//Display 100 universities at one time
@@ -181,6 +172,7 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 
 		int itemCount = 0;
 
+		//Move the elements in the next stack to the current stack and display them
 		while(!nextStack.isEmpty() && itemCount < itemNum) {
 			University university = nextStack.pop();
 			currentStack.push(university);
@@ -190,7 +182,8 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 
 			itemCount++;
 		}
-
+		
+		//If user is registered and can add university to favorites
 		if (hasFav) {
 			cout << endl << "Enter 'P' to view previous page, 'N' to view next page, 'F' to favourite a university";
 			cout << endl << "Enter any other key to exit";
@@ -200,6 +193,7 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 			if (input == "F") {
 				addFavouriteUniversity(numCount, numCount + itemNum);
 
+				//Move the current stack to the next stack
 				while (!currentStack.isEmpty()) {
 					University temp = currentStack.pop();
 					nextStack.push(temp);
@@ -207,6 +201,7 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 			}
 		}
 
+		//If user is unregistered
 		else {
 			cout << endl << "Enter 'P' to view previous page, 'N' to view next page";
 			cout << endl << "Enter any other key to exit";
@@ -214,22 +209,26 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 			cin >> input;
 		}
 
+		//Customer wants to view previous
 		if (input == "P") {
 
+			//Move the current stack to the next stack
 			while (!currentStack.isEmpty()) {
 				University temp = currentStack.pop();
 				nextStack.push(temp);
 			}
 
+			//If previous stack is empty
 			if (prevStack.isEmpty()) {
-
 				cout << "Previous data does not exist!" << endl;
 				system("pause");
 			}
 
+			//If previous stack is not empty
 			else {
 				int count = itemNum;
 
+				//Move the previous elements to the current stack
 				while (!prevStack.isEmpty() && count > 0) {
 					University temp = prevStack.pop();
 					currentStack.push(temp);
@@ -237,6 +236,7 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 					numCount--;
 				}
 
+				//Move the elements in the current stack to the next stack
 				while (!currentStack.isEmpty()) {
 					University temp = currentStack.pop();
 					nextStack.push(temp);
@@ -244,8 +244,10 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 			}
 		}
 
+		//Customer wants to view next
 		else if (input == "N") {
 
+			//If next stack is empty
 			if (nextStack.isEmpty()) {
 
 				while (!currentStack.isEmpty()) {
@@ -257,6 +259,7 @@ void displayUniversityList(bool hasFav, Criteria criteria) {
 				system("pause");
 			}
 
+			//If next stack is not empty
 			else {
 				int count = itemNum;
 
@@ -281,7 +284,6 @@ void addFavouriteUniversity(int min, int max) {
 
 	do {
 		valid = true;
-		//uniList.display(min, max);
 
 		cout << "Enter the No. of the university to be added to favourites (Enter -1 to cancel): ";
 		cin >> favNum;
@@ -321,56 +323,28 @@ bool customerLogin(hashTable* cus, FeedbackLinkedList* cus1) {
 	cout << "===== Customer Login Page =====" << endl;
 	cout << "Please enter your username: ";
 	cin >> username;
-	string realPassword = cus->searchUser(username)->password;
 
-	while (true) {
-		cout << "Please enter your password: ";
-		cin >> password;
-		if (password == realPassword) {
-			customerMenu(cus1, username);
-			return true;
-		}
-		else {
-			cout << "Wrong password! Please try again!\n";
-		}
+	user* customer = cus->searchUser(username);
+	string realPassword = customer->password;
+
+	cout << "Please enter your password: ";
+	cin >> password;
+
+	//If customer password matches
+	if (password == realPassword) {
+		currentUser = customer;
+		system("cls");
+		customerMenu(cus1, username);
+		return true;
 	}
-	return false;
-	//string username = "", password = "";
-	//bool valid = true;
 
-	//cout << "Username: ";
-	//cin >> username;
-
-	//cin.clear();
-	//cin.ignore();
-
-	//user* customer = userTable.searchUser(username);
-
-	////If user is found
-	//if (customer->userName != "") {
-
-	//	//If user account is a customer
-	//	if (customer->accType == "Customer") {
-	//		cout << "Password: ";
-	//		getline(cin, password);
-	//		cin.clear();
-
-	//		//If password matches
-	//		if (customer->password == password) {
-	//			system("cls");
-	//			currentUser = customer;
-	//			return true;
-	//		}
-
-	//		else {
-	//			cout << "Wrong password! Please try again." << endl;
-	//			return false;
-	//		}
-	//	}
-	//}
-
-	//cout << "Invalid customer username! Please try again." << endl;
-	//return false;
+	//If customer password does not match
+	else {
+		cout << "Invalid credentials! Please try again!\n";
+		system("pause");
+		system("cls");
+		return false;
+	}
 }
 
 bool moheLogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
@@ -382,44 +356,49 @@ bool moheLogin(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 	cin >> username;
 	string realPassword = admin->searchUser(username)->password;
 
-	while (true) {
-		cout << "Please enter your password: ";
-		cin >> password;
-		if (password == realPassword) {
-			user* loggedInUser = admin->searchUser(username);
-			loggedInUser->lastActiveTime = time(nullptr);
+	cout << "Please enter your password: ";
+	cin >> password;
 
-			moheMenu(cus, cus1);
-			return true;
-		}
-		else {
-			cout << "Wrong password! Please try again!\n";
-		}
+	//If MoHE password matches
+	if (password == realPassword) {
+		user* loggedInUser = admin->searchUser(username);
+		loggedInUser->lastActiveTime = time(nullptr);
+
+		system("cls");
+		moheMenu(cus, cus1);
+		return true;
 	}
-	return false;
+
+	//If MoHE password does not match
+	else {
+		cout << "Invalid credentials! Please try again!\n";
+		system("pause");
+		system("cls");
+		return false;
+	}
 }
 
 void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 	int input = 0;
 	bool valid = false;
 
+	cout << "===== MoHE Menu =====" << endl << endl;
 	//Display menu
 	do {
 		valid = true;
 
 		cout << "1. Display User List" << endl;
-		cout << "2. Sort User List" << endl;
-		cout << "3. View University Feedback" << endl;
-		cout << "4. Reply Oldest Feedback" << endl;
-		cout << "5. View Favourite University Summary" << endl;
-		cout << "6. Delete Inactive Accounts" << endl;
-		cout << "7. Logout" << endl;
+		cout << "2. View University Feedback" << endl;
+		cout << "3. Reply Oldest Feedback" << endl;
+		cout << "4. View Favourite University Summary" << endl;
+		cout << "5. Delete Inactive Accounts" << endl;
+		cout << "6. Logout" << endl;
 		cout << "Enter option: ";
 		cin >> input;
 
 		system("cls");
 
-		if (cin.fail() || input < 1 || input > 7) {
+		if (cin.fail() || input < 1 || input > 6) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << endl << "Invalid option! Please try again!" << endl;
@@ -431,15 +410,14 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 			cus->printTable();
 		}
 		else if (input == 2) {
-			
+			readFeedback(cus1);
+			system("cls");
 		}
 		else if (input == 3) {
-			readFeedback(cus1);
+			replyFeedback(cus1);
+			system("cls");
 		}
 		else if (input == 4) {
-			replyFeedback(cus1);
-		}
-		else if (input == 5) {
 			uniList.insertionSort(TOTAL_FAV_NUM, false);
 			cout << "========== Top 10 Favourite University ==========" << endl;
 			for (int i = 0; i < 10; i++) {
@@ -459,22 +437,22 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 				cout << endl;
 			}
 		}
-		else if (input == 6) {
+		else if (input == 5) {
 			cus->deleteInactiveAccounts();
 		}
-		else if (input == 7) {
+		else if (input == 6) {
 			valid = false;
 			system("cls");
 			return;
 		}
-	} while (input != 7 || !valid);
+	} while (input != 6 || !valid);
 }
 
 void customerMenu(FeedbackLinkedList* cus, string username) {
 	int input = 0;
 	bool valid = false;
 
-	cout << "\n\n===== Customer Menu =====" << endl << endl;
+	cout << "===== Customer Menu =====" << endl << endl;
 	//Display menu
 	do {
 		cout << "1. Sort University Information" << endl;
@@ -494,16 +472,238 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 			valid = false;
 		}
 		else if (input == 1) {
+			int categoryInput = 0;
+			cout << "========== Sort University Information ==========" << endl << endl;
+			cout << "=============== Category ===============" << endl;
+			cout << "1.  Rank" << endl;
+			cout << "2.  Institution Name" << endl;
+			cout << "3.  Location Code" << endl;
+			cout << "4.  Location" << endl;
+			cout << "5.  Academic Reputation (AR)" << endl;
+			cout << "6.  Employer Reputation (ER)" << endl;
+			cout << "7.  Faculty/Student Ratio (FSR)" << endl;
+			cout << "8.  Citations Per Faculty (CPF)" << endl;
+			cout << "9.  International Faculty Ratio (IFR)" << endl;
+			cout << "10. International Student Ratio (ISR)" << endl;
+			cout << "11. International Research Network (IRN)" << endl;
+			cout << "12. Employment Outcome (GER)" << endl;
+			cout << "Select category to sort: ";
+			cin >> categoryInput;
 
+			if (cin.fail() || categoryInput < 1 || categoryInput > 12) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << endl << "Invalid option! Please try again!" << endl;
+				system("pause");
+				system("cls");
+				valid = false;
+			}
+
+			else {
+				Criteria criteria;
+
+				switch (categoryInput) {
+				case 1:
+					criteria = RANK;
+					break;
+				case 2:
+					criteria = NAME;
+					break;
+				case 3:
+					criteria = LOCATION_CODE;
+					break;
+				case 4:
+					criteria = LOCATION;
+					break;
+				case 5:
+					criteria = ARRANK;
+					break;
+				case 6:
+					criteria = ERRANK;
+					break;
+				case 7:
+					criteria = FSRRANK;
+					break;
+				case 8:
+					criteria = CPFRANK;
+					break;
+				case 9:
+					criteria = IFRRANK;
+					break;
+				case 10:
+					criteria = ISRRANK;
+					break;
+				case 11:
+					criteria = IRNRANK;
+					break;
+				case 12:
+					criteria = GERRANK;
+					break;
+				}
+
+				int orderOption = 0;
+
+				cout << endl << endl;
+				cout << "========== Order ==========" << endl;
+				cout << "1. Ascending order" << endl;
+				cout << "2. Descending order" << endl;
+				cout << "Enter option: ";
+				cin >> orderOption;
+
+				if (cin.fail() || (orderOption != 1 && orderOption != 2)) {
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cout << endl << "Invalid option! Please try again!" << endl;
+					system("pause");
+					system("cls");
+					valid = false;
+				}
+
+				else {
+					system("cls");
+					bool isAscOrder = orderOption == 1 ? true : false;
+
+					//Start timer for sorting
+					auto start = high_resolution_clock::now();
+					//uniList.insertionSort(criteria, isAscOrder);
+
+					uniList.quickSort(criteria, isAscOrder);
+
+					//Record time taken for sorting//
+					/*auto stop = high_resolution_clock::now();
+					auto duration = duration_cast<microseconds>(stop - start);
+					cout << "Time taken by quick sort algorithm: ";
+					cout << duration.count() << " microseconds." << endl;
+					system("pause");
+					system("cls");*/
+
+					displayUniversityList(true, criteria);
+				}
+			}
 		}
 		else if (input == 2) {
+			int categoryInput = 0;
+			cout << "========== Search University Information ==========" << endl << endl;
+			cout << "=============== Category ===============" << endl;
+			cout << "1.  Rank" << endl;
+			cout << "2.  Institution Name" << endl;
+			cout << "3.  Location Code" << endl;
+			cout << "4.  Location" << endl;
+			cout << "5.  Academic Reputation (AR)" << endl;
+			cout << "6.  Employer Reputation (ER)" << endl;
+			cout << "7.  Faculty/Student Ratio (FSR)" << endl;
+			cout << "8.  Citations Per Faculty (CPF)" << endl;
+			cout << "9.  International Faculty Ratio (IFR)" << endl;
+			cout << "10. International Student Ratio (ISR)" << endl;
+			cout << "11. International Research Network (IRN)" << endl;
+			cout << "12. Employment Outcome (GER)" << endl;
+			cout << "Select category to search: ";
+			cin >> categoryInput;
 
+			if (cin.fail() || categoryInput < 1 || categoryInput > 12) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << endl << "Invalid option! Please try again!" << endl;
+				system("pause");
+				system("cls");
+				valid = false;
+			}
+
+			else {
+				Criteria criteria;
+
+				switch (categoryInput) {
+				case 1:
+					criteria = RANK;
+					break;
+				case 2:
+					criteria = NAME;
+					break;
+				case 3:
+					criteria = LOCATION_CODE;
+					break;
+				case 4:
+					criteria = LOCATION;
+					break;
+				case 5:
+					criteria = ARSCORE;
+					break;
+				case 6:
+					criteria = ERSCORE;
+					break;
+				case 7:
+					criteria = FSRSCORE;
+					break;
+				case 8:
+					criteria = CPFSCORE;
+					break;
+				case 9:
+					criteria = IFRSCORE;
+					break;
+				case 10:
+					criteria = ISRSCORE;
+					break;
+				case 11:
+					criteria = IRNSCORE;
+					break;
+				case 12:
+					criteria = GERSCORE;
+					break;
+				}
+
+				cout << endl << endl;
+				cout << "========== Search University ==========" << endl << endl;
+				uniList.quickSort(criteria, 1);
+				Node<University>* result;
+				LinkedList<University> testResult;
+				if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
+					string key = "";
+					cout << "Please enter the university search for: ";
+					cin.ignore();
+					getline(cin, key);
+					result = uniList.binarySearch(criteria, key);
+
+					if (result != NULL) {
+						University university = result->data;
+						cout << string(135, '=') << endl;
+						cout << left << setw(5) << "No." << setw(10) << "Rank" << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
+						cout << string(135, '=') << endl;
+						university.display();
+					}
+
+					else {
+						cout << "University was not found..." << endl << endl;
+					}
+				}
+				else {
+					double key1 = 0.0;
+					cout << "Please enter the university search for: ";
+					cin >> key1;
+					testResult = uniList.binarySearch(criteria, key1);
+
+					if (testResult.getSize() == 0) {
+						cout << "University was not found..." << endl << endl;
+					}
+					else {
+						testResult.display(0, 100);
+					}
+				}
+
+				system("pause");
+				system("cls");
+			}
 		}
 		else if (input == 3) {
+			system("cls");
+			LinkedList<University> favUniList = currentUser->favUniList;
+			favUniList.display(1, favUniList.getSize());
 
+			system("pause");
+			system("cls");
 		}
 		else if (input == 4) {
 			writeFeedback(username, cus);
+			system("cls");
 		}
 		else if (input == 5) {
 			valid = false;
@@ -588,21 +788,3 @@ int main() {
 	homePage(admin, cus, cus1);
 	return 0;
 }
-
-//hashTable addDemoData() {
-//	hashTable userTable;
-//
-//	userTable.addUserAcc("Paul", "Locha", "Customer");
-//	userTable.addUserAcc("Kim", "Iced Mocha", "Customer");
-//	userTable.addUserAcc("Annie", "Passion tea", "MoHE");
-//	userTable.addUserAcc("Sarah", "Chai tea", "Customer");
-//	userTable.addUserAcc("Eleven", "Apple cider", "MoHE");
-//	userTable.addUserAcc("Emma", "Hot Mocha", "MoHE");
-//	userTable.addUserAcc("Bill", "Root bear", "Customer");
-//	userTable.addUserAcc("Susan", "Skinny Latte", "Customer");
-//	userTable.addUserAcc("Marie", "Water", "Customer");
-//	userTable.addUserAcc("Joe", "Green Tea", "Customer");
-//	userTable.addUserAcc("Max", "Caramel mocha", "Customer");
-//
-//	return userTable;
-//}
