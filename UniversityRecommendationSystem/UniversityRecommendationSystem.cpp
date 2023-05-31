@@ -415,6 +415,8 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 		}
 		else if (input == 1) {
 			cus->printTable();
+			cout << endl << endl;
+			system("pause");
 			system("cls");
 		}
 		else if (input == 2) {
@@ -428,6 +430,7 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 		else if (input == 4) {
 			uniList.insertionSort(TOTAL_FAV_NUM, false);
 			cout << "========== Top 10 Favourite University ==========" << endl;
+			cout << left << setw(5) << "No." << setw(10) << "Rank" << setw(90) << "Name" << setw(5) << "Favourites Number" << endl;
 			for (int i = 0; i < 10; i++) {
 				University university = uniList.getFromPosition(i)->data;
 
@@ -444,6 +447,9 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 				university.display(TOTAL_FAV_NUM);
 				cout << endl;
 			}
+
+			system("pause");
+			system("cls");
 		}
 		else if (input == 5) {
 			cus->deleteInactiveAccounts();
@@ -739,8 +745,6 @@ void registerAsUser(hashTable* cus) {
 		cin >> input;
 		cout << endl;
 		if (input == 'Q') {
-			cout << "==================================" << endl;
-			system("cls");
 			return;
 		}
 		else {
