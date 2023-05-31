@@ -37,7 +37,8 @@ public:
 	Node<T>* getFromPosition(int);
 	Node<University>* binarySearch(Criteria, const string&);
 	LinkedList<University> binarySearch(Criteria, const double&);
-	Node<T>* linearSearch(T key);
+	Node<University>* linearSearch(string);
+	//Node<T>* linearSearch(T key);
 	bool display(int, int);
 	void insertionSort(Criteria, bool);
 	void quickSort(Criteria, bool);
@@ -260,15 +261,31 @@ int LinkedList<T>::getSize() {
 }
 
 //Linear search to find a value
-template<class T>
-Node<T>* LinkedList<T>::linearSearch(T key) {
+//template<class T>
+//Node<T>* LinkedList<T>::linearSearch(T key) {
+//	// assign cur pointer points to head
+//	Node<T>* cur = head;
+//
+//	//loop through linked list
+//	while (cur){
+//		// found
+//		if (cur->data.getName() == key.getName()) {
+//			return cur;
+//		}
+//		cur = cur->next;
+//	}
+//	return NULL;
+//}
+
+template<>
+Node<University>* LinkedList<University>::linearSearch(string key) {
 	// assign cur pointer points to head
-	Node<T>* cur = head;
+	Node<University>* cur = head;
 
 	//loop through linked list
 	while (cur){
 		// found
-		if (cur->data.getName() == key.getName()) {
+		if (cur->data.getName() == key) {
 			return cur;
 		}
 		cur = cur->next;

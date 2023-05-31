@@ -671,6 +671,7 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 				cout << endl << endl;
 				cout << "========== Search University ==========" << endl << endl;
 				uniList.quickSort(criteria, 1);
+
 				Node<University>* result;
 				LinkedList<University> testResult;
 				if (criteria == NAME || criteria == LOCATION_CODE || criteria == LOCATION) {
@@ -678,7 +679,19 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 					cout << "Please enter the university search for: ";
 					cin.ignore();
 					getline(cin, key);
+					//start timer for searching 
+					auto start = high_resolution_clock::now();
+
 					result = uniList.binarySearch(criteria, key);
+					//result = uniList.linearSearch(key);
+
+					//Record time taken for searching
+					//auto stop = high_resolution_clock::now();
+					//auto duration = duration_cast<microseconds>(stop - start);
+					//cout << "Time taken by linear search algorithm: ";
+					//cout << duration.count() << " microseconds." << endl;
+					//system("pause");
+					//system("cls");
 
 					if (result != NULL) {
 						University university = result->data;
@@ -696,7 +709,18 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 					double key1 = 0.0;
 					cout << "Please enter the university search for: ";
 					cin >> key1;
+					//start timer for searching 
+					//auto start = high_resolution_clock::now();
+
 					testResult = uniList.binarySearch(criteria, key1);
+
+					//Record time taken for searching
+					/*auto stop = high_resolution_clock::now();
+					auto duration = duration_cast<microseconds>(stop - start);
+					cout << "Time taken by binary search algorithm: ";
+					cout << duration.count() << " microseconds." << endl;
+					system("pause");
+					system("cls");*/
 
 					if (testResult.getSize() == 0) {
 						cout << "University was not found..." << endl << endl;
