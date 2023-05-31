@@ -430,7 +430,9 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 		else if (input == 4) {
 			uniList.insertionSort(TOTAL_FAV_NUM, false);
 			cout << "========== Top 10 Favourite University ==========" << endl;
+			cout << string(135, '=') << endl;
 			cout << left << setw(5) << "No." << setw(10) << "Rank" << setw(90) << "Name" << setw(5) << "Favourites Number" << endl;
+			cout << string(135, '=') << endl;
 			for (int i = 0; i < 10; i++) {
 				University university = uniList.getFromPosition(i)->data;
 
@@ -443,7 +445,7 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 					break;
 				}
 
-				cout << i + 1 << " ";
+				cout << setw(5) << i + 1;
 				university.display(TOTAL_FAV_NUM);
 				cout << endl;
 			}

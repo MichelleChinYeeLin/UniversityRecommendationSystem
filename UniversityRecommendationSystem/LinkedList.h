@@ -418,7 +418,7 @@ bool LinkedList<University>::display(int min, int max) {
 
 	//Display header
 	cout << string(135, '=') << endl;
-	cout << left << setw(5) << "No." << setw(5) << "Rank" << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
+	cout << left << setw(5) << "No." << setw(10) << "Rank" << setw(90) << "Name" << setw(10) << "Loc. Code" << setw(30) << "Location" << endl;
 	cout << string(135, '=') << endl;
 
 	while (current != NULL)
