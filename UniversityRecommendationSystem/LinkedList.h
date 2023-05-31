@@ -105,6 +105,7 @@ void LinkedList<T>::deleteFromFront() {
 
 	Node<T>* current = head;
 	head = current->next;
+	head->prev = NULL;
 
 	delete current;
 	size--;
@@ -119,6 +120,7 @@ void LinkedList<T>::deleteFromEnd() {
 
 	Node<T>* current = tail;
 	tail = current->prev;
+	tail->next = NULL;
 
 	delete current;
 	size--;

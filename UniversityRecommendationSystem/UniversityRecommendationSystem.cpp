@@ -41,7 +41,8 @@ void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 		cout << "1. Customer Login" << endl;
 		cout << "2. MoHE Login" << endl;
 		cout << "3. Display University Information" << endl;
-		cout << "4. Quit" << endl;
+		cout << "4. Register As Customer" << endl;
+		cout << "5. Quit" << endl;
 		cout << "Enter option: ";
 
 		//Read user input
@@ -49,7 +50,7 @@ void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 		cout << endl << endl;
 
 		//If user input is invalid
-		if (cin.fail() || input < 1 || input > 4) {
+		if (cin.fail() || input < 1 || input > 5) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -80,7 +81,13 @@ void homePage(hashTable* admin, hashTable* cus, FeedbackLinkedList* cus1) {
 			displayUniversityList(false, NAME);
 		}
 
-	} while ((input != 4) || !valid);
+		else if (input == 4) {
+			system("cls");
+			registerAsUser(cus);
+			system("cls");
+		}
+
+	} while ((input != 5) || !valid);
 
 }
 
@@ -408,6 +415,7 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 		}
 		else if (input == 1) {
 			cus->printTable();
+			system("cls");
 		}
 		else if (input == 2) {
 			readFeedback(cus1);
@@ -439,6 +447,7 @@ void moheMenu(hashTable* cus, FeedbackLinkedList* cus1) {
 		}
 		else if (input == 5) {
 			cus->deleteInactiveAccounts();
+			system("cls");
 		}
 		else if (input == 6) {
 			valid = false;
@@ -702,6 +711,7 @@ void customerMenu(FeedbackLinkedList* cus, string username) {
 			system("cls");
 		}
 		else if (input == 4) {
+			system("cls");
 			writeFeedback(username, cus);
 			system("cls");
 		}
